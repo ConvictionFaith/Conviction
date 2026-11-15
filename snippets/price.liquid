@@ -1,0 +1,19 @@
+{%- comment -%} Renders a price. Accepts: product or variant (target), class {%- endcomment -%}
+{%- liquid
+  assign t = target | default: product
+  assign price = t.price
+  assign compare = t.compare_at_price
+  if t.price_varies and t.price_min
+    assign price = t.price_min
+  endif
+-%}
+<span class="price{% if compare > price %} price--sale{% endif %}" data-price>
+  {%- if compare > price -%}
+    <span class="visually-hidden">{{ 'products.sale_price' | t }}</span>
+    <span class="price__now">{{ price | money }}</span>
+    <span class="visually-hidden">{{ 'products.regular_price' | t }}</span>
+    <s class="price__was">{{ compare | money }}</s>
+  {%- else -%}
+    <span class="price__now">{{ price | money }}</span>
+  {%- endif -%}
+</span>

@@ -1,0 +1,50 @@
+{%- comment -%}
+  Built-in Conviction photo, used when a section has no image chosen.
+  Accepts: key, class, alt, sizes, eager (boolean), style
+{%- endcomment -%}
+{%- liquid
+  assign w = 1600
+  assign h = 1067
+  case key
+    when 'johnBack'
+      assign w = 1100
+      assign h = 1650
+    when 'trio'
+      assign w = 1800
+      assign h = 1200
+    when 'sunset'
+      assign w = 2000
+      assign h = 1333
+    when 'hat'
+      assign w = 1300
+      assign h = 866
+    when 'jerseyPair'
+      assign w = 1600
+      assign h = 1066
+    when 'floralPair'
+      assign w = 1100
+      assign h = 1650
+    when 'floralChest'
+      assign w = 1200
+      assign h = 800
+    when 'floralBack'
+      assign w = 1100
+      assign h = 1650
+    when 'johnPair'
+      assign w = 1600
+      assign h = 1066
+    when 'eleyxos'
+      assign w = 1200
+      assign h = 800
+    when 'jerseyChest'
+      assign w = 1200
+      assign h = 800
+    when 'levee'
+      assign w = 1100
+      assign h = 1650
+  endcase
+  assign src = 'cv-' | append: key | append: '.webp' | asset_url
+-%}
+<img src="{{ src }}" class="{{ class }}" alt="{{ alt | escape }}" width="{{ w }}" height="{{ h }}"
+  {%- if style %} style="{{ style }}"{% endif %}
+  {%- if eager %} loading="eager" fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async">

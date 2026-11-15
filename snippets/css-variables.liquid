@@ -1,0 +1,35 @@
+{%- assign body_font = settings.type_body_font -%}
+{%- assign body_bold = body_font | font_modify: 'weight', 'bold' -%}
+<style>
+  {{ body_font | font_face: font_display: 'swap' }}
+  {%- if body_bold -%}{{ body_bold | font_face: font_display: 'swap' }}{%- endif %}
+
+  :root {
+    --paper: {{ settings.color_paper }};
+    --ink: {{ settings.color_ink }};
+    --stone: {{ settings.color_stone }};
+    --mute: {{ settings.color_mute }};
+    --rule: {{ settings.color_rule }};
+    --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
+    --font-body-weight: {{ body_font.weight }};
+    --font-body-bold: {% if body_bold %}{{ body_bold.weight }}{% else %}700{% endif %};
+    {%- case settings.display_style -%}
+    {%- when 'condensed' %}
+    --font-display: 'Anton', Impact, 'Arial Narrow Bold', sans-serif;
+    --display-weight: 400;
+    --display-tracking: 0.005em;
+    --display-case: uppercase;
+    {%- when 'blackletter' %}
+    --font-display: 'UnifrakturMaguntia', {{ body_font.family }}, serif;
+    --display-weight: 400;
+    --display-tracking: 0;
+    --display-case: none;
+    {%- else %}
+    --font-display: {{ body_font.family }}, {{ body_font.fallback_families }};
+    --display-weight: var(--font-body-bold);
+    --display-tracking: -0.03em;
+    --display-case: none;
+    {%- endcase %}
+    --page-width: {{ settings.page_width }}px;
+  }
+</style>

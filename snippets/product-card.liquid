@@ -1,0 +1,97 @@
+{%- comment -%}
+  Accepts:
+  - card_product: product
+  - quick_add: boolean
+  - sizes: image sizes attribute
+  - eager: boolean
+{%- endcomment -%}
+{%- liquid
+  assign p = card_product
+  assign title = p.metafields.custom.short_title.value | default: p.title
+  assign img_sizes = sizes | default: '(min-width: 990px) 33vw, (min-width: 600px) 50vw, 100vw'
+  assign loading = 'lazy'
+  if eager
+    assign loading = 'eager'
+  endif
+
+  assign color = ''
+  assign size_index = -1
+  for option in p.options_with_values
+    assign opt = option.name | downcase
+    if opt contains 'color' or opt contains 'colour'
+      assign color = option.selected_value | default: option.values.first
+    endif
+    if opt contains 'size'
+      assign size_index = forloop.index0
+    endif
+  endfor
+
+  assign secondary = p.media[1]
+  assign is_new = false
+  if p.tags contains 'new' or p.tags contains 'New'
+    assign is_new = true
+  endif
+-%}
+<div class="card" data-product-card>
+  <a href="{{ p.url }}" class="card__media{% if secondary %} card__media--swap{% endif %}" tabindex="-1" aria-hidden="true">
+    {%- if p.featured_media -%}
+      {{ p.featured_media | image_url: width: 1400 | image_tag:
+          class: 'card__img',
+          widths: '360,540,720,960,1200,1400',
+          sizes: img_sizes,
+          loading: loading,
+          alt: p.featured_media.alt }}
+      {%- if secondary -%}
+        {{ secondary | image_url: width: 1400 | image_tag:
+            class: 'card__img card__img--alt',
+            widths: '360,540,720,960,1200,1400',
+            sizes: img_sizes,
+            loading: 'lazy',
+            alt: '' }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-apparel-1' | placeholder_svg_tag: 'card__img card__placeholder' }}
+    {%- endif -%}
+  </a>
+
+  {%- if is_new and p.available -%}
+    <span class="card__badge">{{ 'products.new' | t }}</span>
+  {%- elsif p.available == false -%}
+    <span class="card__badge card__badge--muted">{{ 'products.sold_out' | t }}</span>
+  {%- endif -%}
+
+  {%- if quick_add and p.available and size_index >= 0 and p.options.size <= 2 -%}
+    {%- assign base_variant = p.selected_or_first_available_variant -%}
+    <div class="card__quick" role="group" aria-label="{{ 'products.choose_size' | t }}: {{ title | escape }}">
+      <span class="card__quick-label" aria-hidden="true">{{ 'products.select_size' | t }}</span>
+      <div class="card__sizes">
+        {%- for variant in p.variants -%}
+          {%- liquid
+            assign same_other = true
+            if p.options.size == 2
+              for o in variant.options
+                if forloop.index0 != size_index and o != base_variant.options[forloop.index0]
+                  assign same_other = false
+                endif
+              endfor
+            endif
+          -%}
+          {%- if same_other -%}
+            {%- assign size_value = variant.options[size_index] -%}
+            <button type="button"
+              class="card__size"
+              data-quick-add="{{ variant.id }}"
+              {% unless variant.available %}disabled{% endunless %}
+              aria-label="{{ 'products.add_size_to_bag' | t: size: size_value }}">{{ size_value }}</button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <a href="{{ p.url }}" class="card__info">
+    <span class="card__title">{{ title }}</span>
+    {%- if color != blank -%}<span class="card__color">{{ color }}</span>{%- endif -%}
+    {% render 'price', target: p %}
+  </a>
+</div>

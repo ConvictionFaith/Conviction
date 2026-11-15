@@ -1,0 +1,12 @@
+<section class="block-pad page page--narrow account">
+  <h1 class="page__title">{{ 'customer.activate' | t }}</h1>
+  {%- form 'activate_customer_password', class: 'stack' -%}
+    {{ form.errors | default_errors }}
+    <label class="field__label" for="ActivatePassword">{{ 'customer.password' | t }}</label>
+    <input class="field" type="password" name="customer[password]" id="ActivatePassword" autocomplete="new-password" required>
+    <label class="field__label" for="ActivateConfirm">{{ 'customer.password' | t }} (again)</label>
+    <input class="field" type="password" name="customer[password_confirmation]" id="ActivateConfirm" autocomplete="new-password" required>
+    <button class="button">{{ 'customer.activate' | t }}</button>
+    <button class="text-link" name="decline">{{ 'customer.decline' | t }}</button>
+  {%- endform -%}
+</section>

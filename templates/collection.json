@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "per_page": 24,
+        "columns": "3",
+        "quick_add": true,
+        "show_sort": true,
+        "show_description": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

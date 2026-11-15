@@ -1,0 +1,22 @@
+<section class="block-pad page page--narrow" {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}>
+  {%- if section.settings.heading != blank -%}<h2 class="page__subtitle">{{ section.settings.heading }}</h2>{%- endif -%}
+  <div class="rte page__body">{{ section.settings.text }}</div>
+  {%- if section.settings.link_label != blank -%}
+    <p><a href="{{ section.settings.link }}" class="button">{{ section.settings.link_label }}</a></p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Text",
+  "class": "section-rich-text",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why Conviction" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Write something here.</p>" },
+    { "type": "text", "id": "link_label", "label": "Button label" },
+    { "type": "url", "id": "link", "label": "Button link" },
+    { "type": "text", "id": "anchor", "label": "Anchor", "info": "Lets you link to this spot, e.g. story → /pages/about#story" }
+  ],
+  "presets": [{ "name": "Text" }]
+}
+{% endschema %}

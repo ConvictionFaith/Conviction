@@ -1,0 +1,43 @@
+{%- liquid
+  assign collection_obj = section.settings.collection | default: collections.all
+-%}
+<section class="block-pad featured" id="pieces">
+  <div class="row-head">
+    <h2 class="row-head__title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.link_label != blank -%}
+      <a href="{{ collection_obj.url | default: routes.all_products_collection_url }}" class="row-head__link">{{ section.settings.link_label }}</a>
+    {%- endif -%}
+  </div>
+  <ul class="grid grid--{{ section.settings.columns }}" role="list" data-stagger>
+    {%- for p in collection_obj.products limit: section.settings.limit -%}
+      <li>{% render 'product-card', card_product: p, quick_add: section.settings.quick_add %}</li>
+    {%- else -%}
+      {%- for i in (1..3) -%}
+        <li class="card">
+          <div class="card__media">{{ 'product-apparel-1' | placeholder_svg_tag: 'card__img card__placeholder' }}</div>
+          <div class="card__info"><span class="card__title">Product name</span><span class="price">$35.00</span></div>
+        </li>
+      {%- endfor -%}
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Product grid",
+  "class": "section-featured",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pieces" },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Leave empty to show all products." },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 24, "step": 1, "default": 6 },
+    {
+      "type": "select", "id": "columns", "label": "Columns on desktop",
+      "options": [ { "value": "3", "label": "3" }, { "value": "4", "label": "4" } ],
+      "default": "3"
+    },
+    { "type": "checkbox", "id": "quick_add", "label": "Add-to-bag size buttons on hover", "default": true },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "shop all" }
+  ],
+  "presets": [{ "name": "Product grid" }]
+}
+{% endschema %}

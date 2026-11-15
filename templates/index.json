@@ -1,0 +1,95 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "focal": "object-position: center",
+        "height": "full",
+        "overlay": 30,
+        "kicker": "Bold designs, timeless truth",
+        "heading": "Wear your conviction",
+        "button_label": "shop now",
+        "button_link": "shopify://collections/all",
+        "fallback": "sunset"
+      }
+    },
+    "pieces": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Pieces",
+        "limit": 6,
+        "columns": "3",
+        "quick_add": true,
+        "link_label": "shop all"
+      }
+    },
+    "foundation": {
+      "type": "image-with-text",
+      "settings": {
+        "layout": "left",
+        "full_bleed": true,
+        "kicker": "The foundation",
+        "heading": "More than belief",
+        "heading_style": "display",
+        "text": "<p>Rooted in the truth, so it shapes how you live.</p>",
+        "link_label": "read our story",
+        "link": "/pages/about",
+        "fallback": "floralPair"
+      }
+    },
+    "wear-it": {
+      "type": "lookbook",
+      "blocks": {
+        "look-jersey": {
+          "type": "look",
+          "settings": {
+            "caption": "mesh panels, white piping",
+            "title": "Romans 8:6 Jersey",
+            "fallback": "jerseyPair"
+          }
+        },
+        "look-floral": {
+          "type": "look",
+          "settings": {
+            "caption": "full floral back print",
+            "title": "Romans 8:5–6 Tee",
+            "fallback": "floralBack"
+          }
+        },
+        "look-john": {
+          "type": "look",
+          "settings": {
+            "caption": "to convince someone of the truth",
+            "title": "John 16:8 Tee",
+            "fallback": "johnPair"
+          }
+        }
+      },
+      "block_order": [
+        "look-jersey",
+        "look-floral",
+        "look-john"
+      ],
+      "settings": {
+        "heading": "Wear it",
+        "cta": "shop now"
+      }
+    },
+    "who-we-are": {
+      "type": "who-we-are",
+      "settings": {
+        "heading": "Who We Are",
+        "text": "<p>We are used to seeing tag lines, slogans, and even bible verses on clothing everywhere today. Those can all be good things. Conviction is a brand where we want designs that make people think. Make them pause, process, observe – make them ask questions or evoke emotion. Our goal us ultimately to spread Christ’s message by initiating a response, an opportunity for a conversation.</p><p>True growth is not through religion, true growth happens in relationship. Conviction aims to build on initiating responses that open the door for relationships.</p>",
+        "number": "01",
+        "ticker": "Wear your conviction | Bold designs, timeless truth"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "who-we-are",
+    "pieces",
+    "foundation",
+    "wear-it"
+  ]
+}

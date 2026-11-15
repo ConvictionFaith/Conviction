@@ -1,0 +1,32 @@
+<section class="block-pad page page--narrow account">
+  <p class="kicker"><a href="{{ routes.account_url }}">{{ 'customer.account' | t }}</a></p>
+  <h1 class="page__title">{{ 'customer.addresses' | t }}</h1>
+  {%- paginate customer.addresses by 5 -%}
+    {%- for address in customer.addresses -%}
+      <div class="help__topic">
+        {%- if address == customer.default_address -%}<p class="kicker">{{ 'customer.default' | t }}</p>{%- endif -%}
+        {{ address | format_address }}
+        {%- form 'customer_address', address, class: 'stack' -%}
+          <input type="hidden" name="_method" value="delete">
+          <button class="text-link" type="submit">{{ 'customer.delete' | t }}</button>
+        {%- endform -%}
+      </div>
+    {%- endfor -%}
+    {% render 'pagination', paginate: paginate %}
+  {%- endpaginate -%}
+  <h2 class="page__subtitle">{{ 'customer.add_address' | t }}</h2>
+  {%- form 'customer_address', customer.new_address, class: 'stack' -%}
+    {{ form.errors | default_errors }}
+    <input class="field" name="address[first_name]" placeholder="{{ 'customer.first_name' | t }}" autocomplete="given-name">
+    <input class="field" name="address[last_name]" placeholder="{{ 'customer.last_name' | t }}" autocomplete="family-name">
+    <input class="field" name="address[address1]" placeholder="Address" autocomplete="address-line1">
+    <input class="field" name="address[address2]" placeholder="Apartment, suite" autocomplete="address-line2">
+    <input class="field" name="address[city]" placeholder="City" autocomplete="address-level2">
+    <input class="field" name="address[province]" placeholder="State" autocomplete="address-level1">
+    <input class="field" name="address[zip]" placeholder="ZIP" autocomplete="postal-code">
+    <input type="hidden" name="address[country]" value="United States">
+    <input class="field" name="address[phone]" placeholder="Phone" autocomplete="tel">
+    <label><input type="checkbox" name="address[default]" value="1"> {{ 'customer.default' | t }}</label>
+    <button class="button">{{ 'customer.add_address' | t }}</button>
+  {%- endform -%}
+</section>

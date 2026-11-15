@@ -1,0 +1,119 @@
+{
+  "general": {
+    "skip": "Skip to content",
+    "shop_all": "shop all",
+    "shop_now": "shop now",
+    "close": "Close",
+    "search": "Search",
+    "search_placeholder": "Search pieces",
+    "pagination_prev": "previous",
+    "pagination_next": "next",
+    "home": "home"
+  },
+  "header": {
+    "bag": "Bag",
+    "bag_label": "Bag, {{ number }} items"
+  },
+  "products": {
+    "new": "new",
+    "sold_out": "sold out",
+    "unavailable": "unavailable",
+    "add_to_bag": "Add to bag",
+    "adding": "Adding…",
+    "added": "Added",
+    "select_size": "select size",
+    "choose_size": "Choose a size",
+    "choose_options": "choose options",
+    "add_size_to_bag": "Add size {{ size }} to bag",
+    "size_label": "size",
+    "color_label": "color",
+    "more_like_this": "More like this",
+    "image_count": "Image {{ current }} of {{ total }}",
+    "sale": "sale",
+    "regular_price": "Regular price",
+    "sale_price": "Sale price"
+  },
+  "cart": {
+    "title": "Bag",
+    "empty": "Your bag is empty.",
+    "empty_cta": "Shop the pieces",
+    "subtotal": "Subtotal",
+    "taxes_shipping": "Taxes and shipping calculated at checkout.",
+    "checkout": "Check out",
+    "view_bag": "view bag",
+    "remove": "remove",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity for {{ title }}",
+    "increase": "Increase quantity for {{ title }}",
+    "update": "Update bag",
+    "note": "Order note",
+    "free_shipping_away": "{{ amount }} away from free shipping",
+    "free_shipping_reached": "Free shipping on this order",
+    "error": "That didn't go through. Refresh the page and try again."
+  },
+  "collections": {
+    "items": {
+      "one": "{{ count }} piece",
+      "other": "{{ count }} pieces"
+    },
+    "sort": "sort",
+    "empty": "Nothing here yet."
+  },
+  "search": {
+    "title": "Search",
+    "results_for": "Results for “{{ terms }}”",
+    "no_results": "No results for “{{ terms }}”. Try a verse or a product name."
+  },
+  "404": {
+    "title": "Page not found",
+    "text": "This page moved or never existed.",
+    "cta": "Back to the shop"
+  },
+  "customer": {
+    "login": "Log in",
+    "logout": "Log out",
+    "register": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "forgot": "Forgot your password?",
+    "reset": "Reset password",
+    "reset_sent": "Check your email for a link to reset your password.",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "account": "Account",
+    "orders": "Orders",
+    "no_orders": "No orders yet.",
+    "order": "Order",
+    "date": "Date",
+    "payment": "Payment",
+    "fulfillment": "Fulfillment",
+    "total": "Total",
+    "addresses": "Addresses",
+    "view_addresses": "View addresses",
+    "add_address": "Add address",
+    "edit": "Edit",
+    "delete": "Delete",
+    "default": "Default",
+    "activate": "Activate account",
+    "decline": "Decline"
+  },
+  "password": {
+    "title": "Opening soon",
+    "enter": "Enter",
+    "store_password": "Store password"
+  },
+  "gift_card": {
+    "title": "Your gift card",
+    "code": "Gift card code",
+    "expired": "Expired",
+    "disabled": "Disabled",
+    "shop": "Start shopping",
+    "print": "Print"
+  },
+  "blogs": {
+    "read": "read",
+    "back": "back to {{ title }}"
+  }
+}

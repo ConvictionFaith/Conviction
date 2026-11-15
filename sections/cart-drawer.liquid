@@ -1,0 +1,38 @@
+<div class="drawer" data-cart-drawer hidden>
+  <div class="drawer__overlay" data-cart-close></div>
+  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="DrawerTitle" tabindex="-1">
+    <div class="drawer__head">
+      <h2 id="DrawerTitle" class="drawer__title">{{ 'cart.title' | t }} ({{ cart.item_count }})</h2>
+      <button type="button" class="drawer__close" data-cart-close>{{ 'general.close' | t }}</button>
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+      {% render 'free-shipping' %}
+      <ul class="drawer__lines" role="list" data-lenis-prevent>
+        {%- for item in cart.items -%}
+          {% render 'cart-line', item: item, index: forloop.index %}
+        {%- endfor -%}
+      </ul>
+      <div class="drawer__foot">
+        <p class="drawer__total"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></p>
+        <p class="drawer__fine">{{ 'cart.taxes_shipping' | t }}</p>
+        <form action="{{ routes.cart_url }}" method="post">
+          <button type="submit" name="checkout" class="button button--block">{{ 'cart.checkout' | t }}</button>
+        </form>
+        <a href="{{ routes.cart_url }}" class="text-link drawer__view">{{ 'cart.view_bag' | t }}</a>
+      </div>
+    {%- else -%}
+      <div class="drawer__empty">
+        <p>{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'cart.empty_cta' | t }}</a>
+      </div>
+    {%- endif -%}
+  </aside>
+</div>
+
+{% schema %}
+{
+  "name": "Bag drawer",
+  "settings": []
+}
+{% endschema %}

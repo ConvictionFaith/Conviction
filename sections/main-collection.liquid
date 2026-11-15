@@ -1,0 +1,52 @@
+{%- paginate collection.products by section.settings.per_page -%}
+<section class="block-pad collection">
+  <div class="row-head row-head--page">
+    <h1 class="row-head__title">{{ collection.title | downcase }}</h1>
+    <p class="row-head__meta">{{ 'collections.items' | t: count: collection.products_count }}</p>
+    {%- if section.settings.show_sort and collection.products_count > 1 -%}
+      <form class="sort" method="get">
+        <label for="SortBy-{{ section.id }}" class="sort__label">{{ 'collections.sort' | t }}</label>
+        <select id="SortBy-{{ section.id }}" name="sort_by" class="sort__select" data-auto-submit>
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | downcase }}</option>
+          {%- endfor -%}
+        </select>
+        <noscript><button type="submit" class="text-link">{{ 'collections.sort' | t }}</button></noscript>
+      </form>
+    {%- endif -%}
+  </div>
+
+  {%- if collection.description != blank and section.settings.show_description -%}
+    <div class="rte collection__desc">{{ collection.description }}</div>
+  {%- endif -%}
+
+  <ul class="grid grid--{{ section.settings.columns }}" role="list" data-stagger>
+    {%- for p in collection.products -%}
+      <li>{% render 'product-card', card_product: p, quick_add: section.settings.quick_add, eager: forloop.first %}</li>
+    {%- else -%}
+      <li class="empty">{{ 'collections.empty' | t }}</li>
+    {%- endfor -%}
+  </ul>
+
+  {% render 'pagination', paginate: paginate %}
+</section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection",
+  "class": "section-collection",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 6, "max": 48, "step": 3, "default": 24 },
+    {
+      "type": "select", "id": "columns", "label": "Columns on desktop",
+      "options": [ { "value": "3", "label": "3" }, { "value": "4", "label": "4" } ],
+      "default": "3"
+    },
+    { "type": "checkbox", "id": "quick_add", "label": "Add-to-bag size buttons on hover", "default": true },
+    { "type": "checkbox", "id": "show_sort", "label": "Show sorting", "default": true },
+    { "type": "checkbox", "id": "show_description", "label": "Show collection description", "default": false }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,18 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "color_paper": "#FFFFFF",
+      "color_ink": "#000000",
+      "color_stone": "#ECEAE6",
+      "color_mute": "#6E6E6E",
+      "color_rule": "#DCDCDC",
+      "type_body_font": "helvetica_n4",
+      "display_style": "condensed",
+      "page_width": 1400,
+      "cart_type": "drawer",
+      "free_shipping_threshold": 50,
+      "cart_notes": false
+    }
+  }
+}

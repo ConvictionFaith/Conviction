@@ -1,0 +1,56 @@
+<section class="wwa" data-reveal aria-labelledby="wwa-{{ section.id }}">
+  <div class="wwa__rail" aria-hidden="true"><span>{{ section.settings.number }}</span><span class="wwa__rule"></span><span class="wwa__cross"></span></div>
+  <h2 class="wwa__h" id="wwa-{{ section.id }}">
+    {%- assign parts = section.settings.heading | split: ' ' -%}
+    <span class="wwa__l"><span>{{ parts.first }}</span></span>
+    {%- if parts.size > 1 %} <span class="wwa__l wwa__l--o"><span>{{ section.settings.heading | remove_first: parts.first | strip }}</span></span>{%- endif -%}
+  </h2>
+  <div class="wwa__body rte-invert">{{ section.settings.text }}</div>
+</section>
+{%- if section.settings.ticker != blank -%}
+  {%- assign items = section.settings.ticker | split: '|' -%}
+  <div class="ticker" aria-hidden="true"><div class="ticker__t">
+    {%- for n in (1..6) -%}{%- for it in items -%}<span>{{ it | strip }}</span><i></i>{%- endfor -%}{%- endfor -%}
+  </div></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Who We Are",
+  "class": "section-wwa",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Who We Are",
+      "info": "The first word shows solid, the rest in outline."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>We are used to seeing tag lines, slogans, and even bible verses on clothing everywhere today. Those can all be good things. Conviction is a brand where we want designs that make people think. Make them pause, process, observe – make them ask questions or evoke emotion. Our goal us ultimately to spread Christ’s message by initiating a response, an opportunity for a conversation.</p><p>True growth is not through religion, true growth happens in relationship. Conviction aims to build on initiating responses that open the door for relationships.</p>",
+      "info": "The last paragraph is shown larger, as a pull quote."
+    },
+    {
+      "type": "text",
+      "id": "number",
+      "label": "Small number above",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "ticker",
+      "label": "Scrolling band below",
+      "default": "Wear your conviction | Bold designs, timeless truth",
+      "info": "Separate phrases with |. Leave empty to hide the band."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Who We Are"
+    }
+  ]
+}
+{% endschema %}

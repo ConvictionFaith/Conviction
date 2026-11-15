@@ -1,0 +1,204 @@
+{%- liquid
+  assign img = section.settings.image
+  assign mobile = section.settings.image_mobile | default: img
+-%}
+<section class="hero hero--{{ section.settings.height }}" data-hero style="--overlay: {{ section.settings.overlay | divided_by: 100.0 }}">
+  <div class="hero__media" data-parallax>
+    {%- if img != blank -%}
+      <picture>
+        {%- if section.settings.image_mobile != blank -%}
+          <source media="(max-width: 749px)" srcset="{{ mobile | image_url: width: 750 }} 750w, {{ mobile | image_url: width: 1100 }} 1100w, {{ mobile | image_url: width: 1500 }} 1500w" sizes="100vw">
+        {%- endif -%}
+        {{ img | image_url: width: 3000 | image_tag:
+            widths: '750,1100,1500,2000,2500,3000',
+            sizes: '100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'hero__img',
+            style: section.settings.focal }}
+      </picture>
+    {%- else -%}
+      {%- if section.settings.fallback != 'none' -%}
+        {%- capture focal -%}{{ section.settings.focal }}{%- endcapture -%}
+        {% render 'cv-photo', key: section.settings.fallback, class: 'hero__img', alt: section.settings.heading, eager: true, style: focal %}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__img hero__placeholder' }}
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+  <div class="hero__content">
+    {%- if section.settings.kicker != blank -%}<p class="hero__kicker">{{ section.settings.kicker }}</p>{%- endif -%}
+    {%- if section.settings.heading != blank -%}<h2 class="display hero__heading" data-split style="--d: 250ms">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link }}" class="button button--light">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero image",
+  "class": "section-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Landscape, 2400 px wide or more."
+    },
+    {
+      "type": "select",
+      "id": "fallback",
+      "label": "Built-in photo (used when no image is chosen)",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "johnBack",
+          "label": "John 16:8 back, close"
+        },
+        {
+          "value": "trio",
+          "label": "Trio against the sky (floral)"
+        },
+        {
+          "value": "sunset",
+          "label": "Sunset over the hills (John 16:8 back)"
+        },
+        {
+          "value": "hat",
+          "label": "éleyxos front, straw hat"
+        },
+        {
+          "value": "jerseyPair",
+          "label": "Jersey pair under trees"
+        },
+        {
+          "value": "floralPair",
+          "label": "Floral pair on the street"
+        },
+        {
+          "value": "floralChest",
+          "label": "Conviction logo close-up"
+        },
+        {
+          "value": "floralBack",
+          "label": "Floral back on the street"
+        },
+        {
+          "value": "johnPair",
+          "label": "John 16:8 pair on the street"
+        },
+        {
+          "value": "eleyxos",
+          "label": "éleyxos close-up"
+        },
+        {
+          "value": "jerseyChest",
+          "label": "Jersey chest close-up"
+        },
+        {
+          "value": "levee",
+          "label": "Floral front at dusk"
+        }
+      ],
+      "default": "sunset"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image",
+      "info": "Optional. Portrait crop for phones."
+    },
+    {
+      "type": "select",
+      "id": "focal",
+      "label": "Keep this part of the photo in view",
+      "options": [
+        {
+          "value": "object-position: center",
+          "label": "Center"
+        },
+        {
+          "value": "object-position: top",
+          "label": "Top"
+        },
+        {
+          "value": "object-position: bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "object-position: left",
+          "label": "Left"
+        },
+        {
+          "value": "object-position: right",
+          "label": "Right"
+        }
+      ],
+      "default": "object-position: center"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full screen"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        }
+      ],
+      "default": "full"
+    },
+    {
+      "type": "range",
+      "id": "overlay",
+      "label": "Shade behind text",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Small line above heading",
+      "default": "Bold designs, timeless truth"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Wear your conviction"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero image"
+    }
+  ]
+}
+{% endschema %}

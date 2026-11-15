@@ -1,0 +1,179 @@
+<section class="block-pad lookbook">
+  {%- if section.settings.heading != blank -%}
+    <div class="row-head"><h2 class="row-head__title">{{ section.settings.heading }}</h2></div>
+  {%- endif -%}
+  <ul class="lookbook__track" role="list" data-stagger>
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign bp = block.settings.product
+        assign url = block.settings.link | default: bp.url
+        assign label = block.settings.title | default: bp.metafields.custom.short_title.value | default: bp.title
+      -%}
+      <li class="lookbook__item" {{ block.shopify_attributes }}>
+        <a href="{{ url | default: routes.all_products_collection_url }}" class="look">
+          <div class="look__media">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 1400 | image_tag:
+                  widths: '400,600,800,1000,1400',
+                  sizes: '(min-width: 750px) 33vw, 80vw',
+                  loading: 'lazy',
+                  class: 'look__img' }}
+            {%- else -%}
+              {%- if block.settings.fallback != 'none' -%}
+                {% render 'cv-photo', key: block.settings.fallback, class: 'look__img', alt: label %}
+              {%- else -%}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'look__img look__placeholder' }}
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+          <span class="look__caption">{{ block.settings.caption }}</span>
+          <span class="look__title">{{ label | default: 'Product' }}</span>
+          <span class="look__cta">{{ section.settings.cta }}</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Worn by people",
+  "class": "section-lookbook",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Wear it"
+    },
+    {
+      "type": "text",
+      "id": "cta",
+      "label": "Link label on each photo",
+      "default": "shop now"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "look",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo",
+          "info": "Portrait, 4:5."
+        },
+        {
+          "type": "select",
+          "id": "fallback",
+          "label": "Built-in photo (used when no image is chosen)",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "johnBack",
+              "label": "John 16:8 back, close"
+            },
+            {
+              "value": "trio",
+              "label": "Trio against the sky (floral)"
+            },
+            {
+              "value": "sunset",
+              "label": "Sunset over the hills (John 16:8 back)"
+            },
+            {
+              "value": "hat",
+              "label": "éleyxos front, straw hat"
+            },
+            {
+              "value": "jerseyPair",
+              "label": "Jersey pair under trees"
+            },
+            {
+              "value": "floralPair",
+              "label": "Floral pair on the street"
+            },
+            {
+              "value": "floralChest",
+              "label": "Conviction logo close-up"
+            },
+            {
+              "value": "floralBack",
+              "label": "Floral back on the street"
+            },
+            {
+              "value": "johnPair",
+              "label": "John 16:8 pair on the street"
+            },
+            {
+              "value": "eleyxos",
+              "label": "éleyxos close-up"
+            },
+            {
+              "value": "jerseyChest",
+              "label": "Jersey chest close-up"
+            },
+            {
+              "value": "levee",
+              "label": "Floral front at dusk"
+            }
+          ],
+          "default": "johnPair"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product worn"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Detail line",
+          "default": "full floral back print"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Name override",
+          "info": "Leave empty to use the product name."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link override"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Worn by people",
+      "blocks": [
+        {
+          "type": "look",
+          "settings": {
+            "caption": "mesh panels, white piping"
+          }
+        },
+        {
+          "type": "look",
+          "settings": {
+            "caption": "full floral back print"
+          }
+        },
+        {
+          "type": "look",
+          "settings": {
+            "caption": "to convince someone of the truth"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

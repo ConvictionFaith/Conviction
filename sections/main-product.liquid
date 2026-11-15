@@ -1,0 +1,266 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign short_title = product.metafields.custom.short_title.value
+  assign media_count = product.media.size
+-%}
+<section class="product" data-product-section data-section="{{ section.id }}">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <ol role="list">
+      <li><a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a></li>
+      <li><a href="{{ routes.all_products_collection_url }}">shop</a></li>
+      <li aria-current="page">{{ short_title | default: product.title }}</li>
+    </ol>
+  </nav>
+
+  <div class="product__layout">
+    <div class="product__gallery" data-gallery>
+      <ul class="product__media-list" role="list" data-gallery-track>
+        {%- for media in product.media -%}
+          <li class="product__media" data-media-id="{{ media.id }}">
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- assign img_priority = 'high' -%}{%- else -%}{%- assign img_loading = 'lazy' -%}{%- assign img_priority = 'auto' -%}{%- endif -%}
+                {{ media | image_url: width: 2200 | image_tag:
+                    widths: '600,900,1200,1600,2200',
+                    sizes: '(min-width: 990px) 33vw, 100vw',
+                    loading: img_loading,
+                    fetchpriority: img_priority,
+                    alt: media.alt,
+                    class: 'product__img' }}
+              {%- when 'video' -%}
+                {{ media | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: true, class: 'product__img' }}
+              {%- else -%}
+                {{ media | media_tag: class: 'product__img' }}
+            {%- endcase -%}
+          </li>
+        {%- else -%}
+          <li class="product__media">{{ 'product-apparel-1' | placeholder_svg_tag: 'product__img card__placeholder' }}</li>
+        {%- endfor -%}
+      </ul>
+      {%- if media_count > 1 -%}
+        <p class="product__counter" aria-live="polite"><span data-gallery-current>1</span> / {{ media_count }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="product__info">
+      {%- form 'product', product, class: 'product__form', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ current.id }}" data-variant-input>
+
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+
+            {%- when 'title' -%}
+              <h1 class="product__title" {{ block.shopify_attributes }}>
+                {%- if short_title != blank -%}
+                  <span class="product__title-short">{{ short_title }}</span>
+                  <span class="product__title-full">{{ product.title }}</span>
+                {%- else -%}
+                  <span class="product__title-short">{{ product.title }}</span>
+                {%- endif -%}
+              </h1>
+
+            {%- when 'price' -%}
+              <div class="product__price" data-price-wrap {{ block.shopify_attributes }}>
+                {% render 'price', target: current %}
+              </div>
+
+            {%- when 'variant_picker' -%}
+              {%- unless product.has_only_default_variant -%}
+                <div class="product__options" {{ block.shopify_attributes }}>
+                  {%- for option in product.options_with_values -%}
+                    {%- assign oname = option.name | downcase -%}
+                    {%- if option.values.size == 1 -%}
+                      <p class="option option--single">
+                        <span class="option__name">{{ oname }}:</span> {{ option.values.first }}
+                        <input type="hidden" name="option-{{ forloop.index0 }}" value="{{ option.values.first | escape }}" data-option-input data-index="{{ forloop.index0 }}" checked>
+                      </p>
+                    {%- else -%}
+                      <fieldset class="option" data-option-group>
+                        <legend class="option__name">
+                          {{ oname }}: <strong data-option-selected>{% if oname contains 'size' and block.settings.require_size %}select{% else %}{{ option.selected_value }}{% endif %}</strong>
+                        </legend>
+                        <div class="option__values">
+                          {%- for value in option.values -%}
+                            {%- liquid
+                              assign checked = false
+                              if option.selected_value == value
+                                assign checked = true
+                              endif
+                              if oname contains 'size' and block.settings.require_size
+                                assign checked = false
+                              endif
+                            -%}
+                            <label class="option__value">
+                              <input type="radio"
+                                name="option-{{ forloop.parentloop.index0 }}"
+                                value="{{ value | escape }}"
+                                data-option-input
+                                data-index="{{ forloop.parentloop.index0 }}"
+                                {% if checked %}checked{% endif %}>
+                              <span>{{ value }}</span>
+                            </label>
+                          {%- endfor -%}
+                        </div>
+                      </fieldset>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              {%- endunless -%}
+
+            {%- when 'buy_buttons' -%}
+              {%- liquid
+                assign needs_choice = false
+                if block.settings.require_size
+                  for option in product.options_with_values
+                    assign oname = option.name | downcase
+                    if oname contains 'size' and option.values.size > 1
+                      assign needs_choice = true
+                    endif
+                  endfor
+                endif
+              -%}
+              <div class="product__buy" {{ block.shopify_attributes }}>
+                <button type="submit"
+                  class="button button--block"
+                  data-add-button
+                  data-needs-choice="{{ needs_choice }}"
+                  {% unless current.available %}disabled{% endunless %}>
+                  {%- if current.available == false -%}{{ 'products.sold_out' | t }}{%- elsif needs_choice -%}{{ 'products.choose_size' | t }}{%- else -%}{{ 'products.add_to_bag' | t }}{%- endif -%}
+                </button>
+                {%- if block.settings.dynamic_checkout -%}
+                  <div class="product__dynamic">{{ form | payment_button }}</div>
+                {%- endif -%}
+                <p class="product__error" role="alert" data-form-error hidden></p>
+              </div>
+
+            {%- when 'note' -%}
+              <p class="product__note" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+
+            {%- when 'description' -%}
+              {%- if product.description != blank -%}
+                <details class="fold" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+                  <summary>{{ block.settings.heading }}</summary>
+                  <div class="fold__body rte">{{ product.description }}</div>
+                  {%- assign details = product.metafields.custom.details.value -%}
+                  {%- if details != blank -%}
+                    <dl class="specs">
+                      {%- assign lines = details | newline_to_br | split: '<br />' -%}
+                      {%- for line in lines -%}
+                        {%- assign l = line | strip -%}
+                        {%- if l contains ':' -%}
+                          {%- assign key = l | split: ':' | first -%}
+                          {%- assign val = l | remove_first: key | remove_first: ':' | strip -%}
+                          <div class="specs__row"><dt>{{ key }}</dt><dd>{{ val }}</dd></div>
+                        {%- elsif l != blank -%}
+                          <div class="specs__row"><dt></dt><dd>{{ l }}</dd></div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </dl>
+                  {%- endif -%}
+                </details>
+              {%- endif -%}
+
+            {%- when 'size_chart' -%}
+              {%- liquid
+                assign chart_page = product.metafields.custom.size_chart.value | default: block.settings.page
+              -%}
+              {%- if chart_page != blank -%}
+                <details class="fold" {{ block.shopify_attributes }}>
+                  <summary>{{ block.settings.heading }}</summary>
+                  <div class="fold__body rte rte--table">{{ chart_page.content }}</div>
+                </details>
+              {%- endif -%}
+
+            {%- when 'fold' -%}
+              {%- liquid
+                assign fold_content = block.settings.content
+                if block.settings.page != blank
+                  assign fold_content = block.settings.page.content
+                endif
+              -%}
+              {%- if fold_content != blank -%}
+                <details class="fold" {{ block.shopify_attributes }}>
+                  <summary>{{ block.settings.heading }}</summary>
+                  <div class="fold__body rte">{{ fold_content }}</div>
+                </details>
+              {%- endif -%}
+
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- endform -%}
+    </div>
+  </div>
+
+  <script type="application/json" data-product-json>
+    {
+      "variants": [
+        {%- for v in product.variants -%}
+          {
+            "id": {{ v.id }},
+            "options": {{ v.options | json }},
+            "available": {{ v.available | json }},
+            "price": {{ v.price | money | json }},
+            "compare": {% if v.compare_at_price > v.price %}{{ v.compare_at_price | money | json }}{% else %}null{% endif %},
+            "media": {% if v.featured_media %}{{ v.featured_media.id }}{% else %}null{% endif %}
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+</section>
+
+{%- comment -%} Structured data {%- endcomment -%}
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "class": "section-product",
+  "blocks": [
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    {
+      "type": "variant_picker", "name": "Size and color", "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "require_size", "label": "Make shoppers pick a size", "info": "Size starts unselected so nobody adds the default by accident.", "default": true }
+      ]
+    },
+    {
+      "type": "buy_buttons", "name": "Add to bag", "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "require_size", "label": "Make shoppers pick a size", "info": "Keep this matching the Size and color block.", "default": true },
+        { "type": "checkbox", "id": "dynamic_checkout", "label": "Show Shop Pay / Apple Pay button", "default": false }
+      ]
+    },
+    {
+      "type": "note", "name": "Short note",
+      "settings": [ { "type": "text", "id": "text", "label": "Text", "default": "Shipped by hand from the US" } ]
+    },
+    {
+      "type": "description", "name": "Description", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Description" },
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": true },
+        { "type": "paragraph", "content": "Fabric, weight, fit and care come from the product metafield custom.details, one “Label: value” per line." }
+      ]
+    },
+    {
+      "type": "size_chart", "name": "Size chart", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Size & fit" },
+        { "type": "page", "id": "page", "label": "Fallback size chart page", "info": "Used when a product has no custom.size_chart metafield." }
+      ]
+    },
+    {
+      "type": "fold", "name": "Collapsible text",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Shipping" },
+        { "type": "richtext", "id": "content", "label": "Text", "default": "<p>Every order is packed and shipped by hand from the US. US addresses only for now.</p><p>You'll get an email when it's on its way.</p>" },
+        { "type": "page", "id": "page", "label": "Or show a page's text" }
+      ]
+    }
+  ]
+}
+{% endschema %}

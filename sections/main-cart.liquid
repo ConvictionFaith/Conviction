@@ -1,0 +1,37 @@
+<section class="block-pad cart-page">
+  <div class="row-head row-head--page">
+    <h1 class="row-head__title">{{ 'cart.title' | t }}</h1>
+    <p class="row-head__meta">{{ 'collections.items' | t: count: cart.item_count }}</p>
+  </div>
+
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page__layout">
+      <div>
+        {% render 'free-shipping' %}
+        <ul class="cart-page__lines" role="list">
+          {%- for item in cart.items -%}
+            {% render 'cart-line', item: item, index: forloop.index %}
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div class="cart-page__summary">
+        {%- if settings.cart_notes -%}
+          <label for="CartNote" class="field__label">{{ 'cart.note' | t }}</label>
+          <textarea id="CartNote" name="note" class="field" rows="3">{{ cart.note }}</textarea>
+        {%- endif -%}
+        <p class="drawer__total"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></p>
+        <p class="drawer__fine">{{ 'cart.taxes_shipping' | t }}</p>
+        <button type="submit" name="checkout" class="button button--block">{{ 'cart.checkout' | t }}</button>
+      </div>
+    </form>
+  {%- else -%}
+    <div class="drawer__empty">
+      <p>{{ 'cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'cart.empty_cta' | t }}</a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{ "name": "Bag", "settings": [] }
+{% endschema %}

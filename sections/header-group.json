@@ -1,0 +1,25 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "Free shipping on orders over $50",
+        "link_label": "Shop now",
+        "link": "shopify://collections/all"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_width": 130,
+        "menu": "main-menu",
+        "sticky": true,
+        "show_search": false,
+        "show_account": false
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

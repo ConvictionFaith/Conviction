@@ -1,0 +1,176 @@
+<section class="iwt iwt--{{ section.settings.layout }}{% if section.settings.full_bleed %} iwt--bleed{% endif %}">
+  <div class="iwt__media" data-reveal>
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2400 | image_tag:
+          widths: '600,900,1200,1600,2000,2400',
+          sizes: '(min-width: 750px) 50vw, 100vw',
+          loading: 'lazy',
+          class: 'iwt__img' }}
+    {%- else -%}
+      {%- if section.settings.fallback != 'none' -%}
+        {% render 'cv-photo', key: section.settings.fallback, class: 'iwt__img', alt: section.settings.heading %}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'iwt__img iwt__placeholder' }}
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+  <div class="iwt__text">
+    <div class="iwt__inner">
+      {%- if section.settings.kicker != blank -%}<p class="kicker">{{ section.settings.kicker }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="{% if section.settings.heading_style == 'display' %}display iwt__display{% else %}iwt__heading{% endif %}"{% if section.settings.heading_style == 'display' %} data-split{% endif %}>{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}<div class="rte iwt__body">{{ section.settings.text }}</div>{%- endif -%}
+      {%- if section.settings.link_label != blank -%}
+        <a href="{{ section.settings.link }}" class="text-link">{{ section.settings.link_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image with text",
+  "class": "section-iwt",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "fallback",
+      "label": "Built-in photo (used when no image is chosen)",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "johnBack",
+          "label": "John 16:8 back, close"
+        },
+        {
+          "value": "trio",
+          "label": "Trio against the sky (floral)"
+        },
+        {
+          "value": "sunset",
+          "label": "Sunset over the hills (John 16:8 back)"
+        },
+        {
+          "value": "hat",
+          "label": "éleyxos front, straw hat"
+        },
+        {
+          "value": "jerseyPair",
+          "label": "Jersey pair under trees"
+        },
+        {
+          "value": "floralPair",
+          "label": "Floral pair on the street"
+        },
+        {
+          "value": "floralChest",
+          "label": "Conviction logo close-up"
+        },
+        {
+          "value": "floralBack",
+          "label": "Floral back on the street"
+        },
+        {
+          "value": "johnPair",
+          "label": "John 16:8 pair on the street"
+        },
+        {
+          "value": "eleyxos",
+          "label": "éleyxos close-up"
+        },
+        {
+          "value": "jerseyChest",
+          "label": "Jersey chest close-up"
+        },
+        {
+          "value": "levee",
+          "label": "Floral front at dusk"
+        }
+      ],
+      "default": "floralPair"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_bleed",
+      "label": "Image fills its half edge to edge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Small line above heading",
+      "default": "The foundation"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "More than belief"
+    },
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Heading style",
+      "options": [
+        {
+          "value": "display",
+          "label": "Large headline"
+        },
+        {
+          "value": "plain",
+          "label": "Plain"
+        }
+      ],
+      "default": "display"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Rooted in the truth, so it shapes how you live.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "read our story"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with text"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,22 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "footer", "extra_text": "" } },
+        "help": { "type": "menu", "settings": { "heading": "Help", "menu": "footer", "extra_text": "" } },
+        "info": { "type": "menu", "settings": { "heading": "Info", "menu": "footer", "extra_text": "prayer wall (soon)" } },
+        "follow": { "type": "social", "settings": { "heading": "Follow" } }
+      },
+      "block_order": ["shop", "help", "info", "follow"],
+      "settings": {
+        "note": "Shipped by hand from the US",
+        "email": "conviction.faith1@gmail.com",
+        "tagline": "Christian streetwear, made to be asked about."
+      }
+    }
+  },
+  "order": ["footer"]
+}

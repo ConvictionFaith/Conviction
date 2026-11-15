@@ -1,0 +1,29 @@
+<section class="block-pad">
+  <div class="row-head row-head--page"><h1 class="row-head__title">{{ section.settings.heading }}</h1></div>
+  <ul class="grid grid--3" role="list">
+    {%- for c in collections -%}
+      {%- unless c.handle == 'frontpage' -%}
+        <li>
+          <a href="{{ c.url }}" class="card">
+            <div class="card__media">
+              {%- assign cimg = c.featured_image | default: c.products.first.featured_media -%}
+              {%- if cimg -%}
+                {{ cimg | image_url: width: 1200 | image_tag: widths: '400,800,1200', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy', class: 'card__img' }}
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'card__img card__placeholder' }}
+              {%- endif -%}
+            </div>
+            <span class="card__info"><span class="card__title">{{ c.title }}</span><span class="card__color">{{ 'collections.items' | t: count: c.products_count }}</span></span>
+          </a>
+        </li>
+      {%- endunless -%}
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": [ { "type": "text", "id": "heading", "label": "Heading", "default": "shop" } ]
+}
+{% endschema %}

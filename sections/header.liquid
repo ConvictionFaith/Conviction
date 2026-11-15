@@ -1,0 +1,60 @@
+<header class="header{% if section.settings.sticky %} header--sticky{% endif %}" data-header>
+  <div class="header__inner">
+    <nav class="header__nav" aria-label="Main">
+      <ul class="header__menu" role="list">
+        {%- for link in section.settings.menu.links -%}
+          <li>
+            <a href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    {%- if request.page_type == 'index' -%}<h1 class="header__logo">{%- else -%}<div class="header__logo">{%- endif -%}
+      <a href="{{ routes.root_url }}">
+        {%- if section.settings.logo != blank -%}
+          {%- capture logo_style -%}width: {{ section.settings.logo_width }}px{%- endcapture -%}
+          {%- capture logo_sizes -%}{{ section.settings.logo_width }}px{%- endcapture -%}
+          {{ section.settings.logo | image_url: width: 600 | image_tag:
+              alt: shop.name,
+              widths: '200,300,400,600',
+              sizes: logo_sizes,
+              style: logo_style,
+              loading: 'eager' }}
+        {%- else -%}
+          <span class="wm" role="img" aria-label="{{ shop.name }}" style="--wm: url('{{ 'conviction-wordmark.svg' | asset_url }}'); width: {{ section.settings.logo_width }}px"></span>
+        {%- endif -%}
+      </a>
+    {%- if request.page_type == 'index' -%}</h1>{%- else -%}</div>{%- endif -%}
+
+    <div class="header__tools">
+      {%- if section.settings.show_search -%}
+        <a href="{{ routes.search_url }}" class="header__tool">{{ 'general.search' | t }}</a>
+      {%- endif -%}
+      {%- if shop.customer_accounts_enabled and section.settings.show_account -%}
+        <a href="{{ routes.account_url }}" class="header__tool">{{ 'customer.account' | t }}</a>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}"
+         class="header__tool header__bag"
+         data-cart-toggle
+         aria-label="{{ 'header.bag_label' | t: number: cart.item_count }}">
+        {{ 'header.bag' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)
+      </a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Optional. Leave empty to use the cut-out CONVICTION letters, which follow your text color. Upload an image only to replace them." },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 60, "max": 260, "step": 5, "unit": "px", "default": 150 },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "sticky", "label": "Keep header visible while scrolling", "default": true },
+    { "type": "checkbox", "id": "show_search", "label": "Show search link", "default": false },
+    { "type": "checkbox", "id": "show_account", "label": "Show account link", "default": false }
+  ]
+}
+{% endschema %}

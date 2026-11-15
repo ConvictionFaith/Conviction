@@ -1,0 +1,53 @@
+{
+  "sections": {
+    "main": {
+      "type": "help-topics",
+      "settings": {
+        "heading": "Help"
+      },
+      "blocks": {
+        "contact": {
+          "type": "topic",
+          "settings": {
+            "title": "Contact",
+            "anchor": "contact",
+            "text": "<p>Email <a href=\"mailto:conviction.faith1@gmail.com\">conviction.faith1@gmail.com</a>. Orders, sizing, anything else. A real person answers.</p>"
+          }
+        },
+        "shipping": {
+          "type": "topic",
+          "settings": {
+            "title": "Shipping",
+            "anchor": "shipping",
+            "text": "<p>Every order is packed and shipped by hand from the US. US addresses only for now.</p><p>You'll get an email when it's on its way.</p>"
+          }
+        },
+        "returns": {
+          "type": "topic",
+          "settings": {
+            "title": "Returns",
+            "anchor": "returns",
+            "text": "<p>Something not right? Email <a href=\"mailto:conviction.faith1@gmail.com\">conviction.faith1@gmail.com</a> with your order number and we'll sort it out.</p>"
+          }
+        },
+        "sizing": {
+          "type": "topic",
+          "settings": {
+            "title": "Sizing",
+            "anchor": "sizing",
+            "text": "<p>Every piece is unisex. The size chart on each product page lists garment measurements in inches and centimeters; measure a tee you like and compare.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "contact",
+        "shipping",
+        "returns",
+        "sizing"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

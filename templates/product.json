@@ -1,0 +1,87 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "picker": {
+          "type": "variant_picker",
+          "settings": {
+            "require_size": true
+          }
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "require_size": true,
+            "dynamic_checkout": false
+          }
+        },
+        "note": {
+          "type": "note",
+          "settings": {
+            "text": "Shipped by hand from the US"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "heading": "Description",
+            "open": true
+          }
+        },
+        "size": {
+          "type": "size_chart",
+          "settings": {
+            "heading": "Size & fit"
+          }
+        },
+        "shipping": {
+          "type": "fold",
+          "settings": {
+            "heading": "Shipping",
+            "content": "<p>Every order is packed and shipped by hand from the US. US addresses only for now.</p><p>You'll get an email when it's on its way.</p>"
+          }
+        },
+        "returns": {
+          "type": "fold",
+          "settings": {
+            "heading": "Returns",
+            "content": "<p>Something not right? Email <a href=\"mailto:conviction.faith1@gmail.com\">conviction.faith1@gmail.com</a> with your order number and we'll sort it out.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "picker",
+        "buy",
+        "note",
+        "description",
+        "size",
+        "shipping",
+        "returns"
+      ],
+      "settings": {}
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "heading": "More like this",
+        "limit": 3,
+        "columns": "3"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related"
+  ]
+}

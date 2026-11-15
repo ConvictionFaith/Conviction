@@ -1,0 +1,27 @@
+<section class="block-pad page page--narrow account">
+  <h1 class="page__title">{{ 'customer.login' | t }}</h1>
+  <div id="login">
+    {%- form 'customer_login', class: 'stack' -%}
+      {{ form.errors | default_errors }}
+      <label class="field__label" for="LoginEmail">{{ 'customer.email' | t }}</label>
+      <input class="field" type="email" name="customer[email]" id="LoginEmail" autocomplete="email" required>
+      {%- if form.password_needed -%}
+        <label class="field__label" for="LoginPassword">{{ 'customer.password' | t }}</label>
+        <input class="field" type="password" name="customer[password]" id="LoginPassword" autocomplete="current-password" required>
+        <a href="#recover" class="text-link">{{ 'customer.forgot' | t }}</a>
+      {%- endif -%}
+      <button class="button button--block">{{ 'customer.login' | t }}</button>
+      <a href="{{ routes.account_register_url }}" class="text-link">{{ 'customer.register' | t }}</a>
+    {%- endform -%}
+  </div>
+  <div id="recover">
+    <h2 class="page__subtitle">{{ 'customer.reset' | t }}</h2>
+    {%- form 'recover_customer_password', class: 'stack' -%}
+      {%- if form.posted_successfully? -%}<p>{{ 'customer.reset_sent' | t }}</p>{%- endif -%}
+      {{ form.errors | default_errors }}
+      <label class="field__label" for="RecoverEmail">{{ 'customer.email' | t }}</label>
+      <input class="field" type="email" name="email" id="RecoverEmail" autocomplete="email" required>
+      <button class="button">{{ 'customer.submit' | t }}</button>
+    {%- endform -%}
+  </div>
+</section>

@@ -1,0 +1,27 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'gift_card.title' | t }} · {{ shop.name }}</title>
+    {%- render 'css-variables' -%}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ content_for_header }}
+  </head>
+  <body class="template-gift-card">
+    <main class="password">
+      <p class="header__wordmark">{{ shop.name }}</p>
+      <h1 class="page__title">{{ gift_card.balance | money }}</h1>
+      {%- if gift_card.expired -%}<p>{{ 'gift_card.expired' | t }}</p>{%- endif -%}
+      {%- unless gift_card.enabled -%}<p>{{ 'gift_card.disabled' | t }}</p>{%- endunless -%}
+      <p class="kicker">{{ 'gift_card.code' | t }}</p>
+      <p class="giftcode">{{ gift_card.code | format_code }}</p>
+      {%- if gift_card.pass_url -%}<p><a href="{{ gift_card.pass_url }}">Add to Apple Wallet</a></p>{%- endif -%}
+      <p>
+        <a href="{{ shop.url }}" class="button">{{ 'gift_card.shop' | t }}</a>
+        <button type="button" class="button" onclick="window.print()">{{ 'gift_card.print' | t }}</button>
+      </p>
+    </main>
+  </body>
+</html>

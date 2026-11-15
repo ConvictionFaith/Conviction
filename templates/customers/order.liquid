@@ -1,0 +1,16 @@
+<section class="block-pad page page--narrow account">
+  <p class="kicker"><a href="{{ routes.account_url }}">{{ 'customer.account' | t }}</a></p>
+  <h1 class="page__title">{{ 'customer.order' | t }} {{ order.name }}</h1>
+  <p>{{ order.created_at | date: '%B %-d, %Y' }} · {{ order.financial_status_label }} · {{ order.fulfillment_status_label }}</p>
+  <table class="table">
+    <tbody>
+      {%- for line in order.line_items -%}
+        <tr><td>{{ line.title }} × {{ line.quantity }}</td><td>{{ line.final_line_price | money }}</td></tr>
+      {%- endfor -%}
+      <tr><td>{{ 'cart.subtotal' | t }}</td><td>{{ order.line_items_subtotal_price | money }}</td></tr>
+      {%- for line in order.shipping_methods -%}<tr><td>{{ line.title }}</td><td>{{ line.price | money }}</td></tr>{%- endfor -%}
+      <tr><td><strong>{{ 'customer.total' | t }}</strong></td><td><strong>{{ order.total_price | money }}</strong></td></tr>
+    </tbody>
+  </table>
+  {%- if order.shipping_address -%}<p>{{ order.shipping_address | format_address }}</p>{%- endif -%}
+</section>

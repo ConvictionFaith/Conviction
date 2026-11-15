@@ -1,0 +1,33 @@
+{%- comment -%} Accepts: item, index (1-based line) {%- endcomment -%}
+{%- assign item_title = item.product.metafields.custom.short_title.value | default: item.product.title -%}
+<li class="line" data-line="{{ index }}" style="--i: {{ index | minus: 1 }}">
+  <a href="{{ item.url }}" class="line__media">
+    {%- if item.image -%}
+      {{ item.image | image_url: width: 300 | image_tag: widths: '150,300', sizes: '96px', loading: 'lazy', alt: item.image.alt }}
+    {%- endif -%}
+  </a>
+  <div class="line__info">
+    <a href="{{ item.url }}" class="line__title">{{ item_title }}</a>
+    {%- unless item.product.has_only_default_variant -%}
+      <p class="line__variant">{{ item.variant.title | downcase }}</p>
+    {%- endunless -%}
+    {%- for p in item.properties -%}
+      {%- unless p.last == blank or p.first contains '_' -%}
+        <p class="line__variant">{{ p.first }}: {{ p.last }}</p>
+      {%- endunless -%}
+    {%- endfor -%}
+    <div class="line__row">
+      <div class="qty">
+        <a class="qty__btn" href="{{ routes.cart_change_url }}?line={{ index }}&quantity={{ item.quantity | minus: 1 }}"
+           data-line-change="{{ index }}" data-qty="{{ item.quantity | minus: 1 }}"
+           aria-label="{{ 'cart.decrease' | t: title: item_title }}">−</a>
+        <span class="qty__val" aria-label="{{ 'cart.quantity' | t }}">{{ item.quantity }}</span>
+        <a class="qty__btn" href="{{ routes.cart_change_url }}?line={{ index }}&quantity={{ item.quantity | plus: 1 }}"
+           data-line-change="{{ index }}" data-qty="{{ item.quantity | plus: 1 }}"
+           aria-label="{{ 'cart.increase' | t: title: item_title }}">+</a>
+      </div>
+      <a class="line__remove" href="{{ item.url_to_remove }}" data-line-change="{{ index }}" data-qty="0">{{ 'cart.remove' | t }}</a>
+      <span class="line__price">{{ item.final_line_price | money }}</span>
+    </div>
+  </div>
+</li>
