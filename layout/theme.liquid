@@ -35,13 +35,12 @@
     {%- endif -%}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
 
     {{ content_for_header }}
   </head>
 
-  <body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
+  <body class="{% if settings.photo_grade %}has-grade {% endif %}template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
     <a class="skip-link" href="#main">Skip to content</a>
 
     {% sections 'header-group' %}
@@ -73,6 +72,7 @@
           soldOut: {{ 'products.sold_out' | t | json }},
           unavailable: {{ 'products.unavailable' | t | json }},
           chooseSize: {{ 'products.choose_size' | t | json }},
+          sizeLabel: {{ 'products.select_size' | t | json }},
           error: {{ 'cart.error' | t | json }}
         }
       };

@@ -1,65 +1,71 @@
 {
   "sections": {
-    "intro": {
-      "type": "page-intro",
-      "settings": {
-        "heading": "Planting seeds for the Holy Spirit to work through.",
-        "fallback": "trio"
-      }
-    },
-    "meaning": {
+    "lead": {
       "type": "image-with-text",
       "settings": {
         "layout": "right",
         "full_bleed": true,
-        "heading": "What conviction means",
-        "heading_style": "plain",
-        "text": "<p>In biblical Greek, conviction means to convince someone of the truth. The only one who can convict us of our sins is the Holy Spirit, who now dwells in all who believe in Christ.</p>",
-        "fallback": "johnBack"
+        "kicker": "éleyxos · John 16:8",
+        "heading": "Conviction",
+        "heading_style": "display",
+        "heading_tag": "h1",
+        "text": "<p>The biblical Greek definition of conviction is to convince someone of the truth. The only one who can convict us of our sins is the Holy Spirit. In the Old Testament, the Holy Spirit came upon individuals temporarily; such as prophets, judges, and kings for specific purposes. But when Jesus died for us, the veil that separated the holiness of God from sinful mankind was torn in two (Matthew 27:51).</p>",
+        "large_text": true,
+        "link_label": "",
+        "fallback": "johnBackClean"
       }
     },
-    "support": {
+    "goal": {
+      "type": "statement",
+      "settings": {
+        "text": "The goal of the brand Conviction is to plant seeds so the Holy Spirit can work through them.",
+        "cross": true
+      }
+    },
+    "mission": {
       "type": "image-with-text",
       "settings": {
         "layout": "left",
         "full_bleed": true,
-        "heading": "How to support us",
+        "kicker": "",
+        "heading": "",
         "heading_style": "plain",
-        "text": "<p>First and foremost, by praying: that we do this with humility, a pure heart, and obedience to Him. Then by wearing the clothes.</p>",
-        "fallback": "floralBack"
-      }
-    },
-    "why": {
-      "type": "rich-text",
-      "settings": {
-        "heading": "Conviction",
-        "anchor": "story",
-        "text": "<p>The biblical Greek definition of conviction is to convince someone of the truth. The only one who can convict us of our sins is the Holy Spirit. In the Old Testament, the Holy Spirit came upon individuals temporarily; such as prophets, judges, and kings for specific purposes. But when Jesus died for us, the veil that separated the holiness of God from sinful mankind was torn in two (Matthew 27:51).</p><p>The goal of the brand Conviction is to plant seeds so the Holy Spirit can work through them.</p><p>Our mission is to spread the joy and love that Christ has shown in our lives. Every person has a void in their heart, and we’ve all tried to fill it with the things of this world, but that never satisfies. Our goal is to reveal that we have active enemy in this world that wants to destroy us, but evil has no power over the name of Jesus. We also want to reflect the unwavering love and grace Christ has shown us.</p><p>We do this by spreading the “Good News” known as the Gospel: Jesus died for our sins. With bold, truthful messages and new aesthetic style. Creating clothing to encourage others as we continue to pursue His will.</p><p>You can support us, first and foremost, by praying. Pray that we do this with humility, a pure heart, and obedience to Him. Pray that we share the love and mercy God has shown us.</p><p>You can also support us financially by purchasing our clothes.</p>"
+        "text": "<p>Our mission is to spread the joy and love that Christ has shown in our lives. Every person has a void in their heart, and we’ve all tried to fill it with the things of this world, but that never satisfies. Our goal is to reveal that we have active enemy in this world that wants to destroy us, but evil has no power over the name of Jesus. We also want to reflect the unwavering love and grace Christ has shown us.</p><p>We do this by spreading the “Good News” known as the Gospel: Jesus died for our sins. With bold, truthful messages and new aesthetic style. Creating clothing to encourage others as we continue to pursue His will.</p>",
+        "link_label": "",
+        "fallback": "hat"
       }
     },
     "started": {
-      "type": "rich-text",
+      "type": "image-with-text",
       "settings": {
+        "layout": "right",
+        "full_bleed": true,
+        "kicker": "",
         "heading": "How we started",
-        "text": "<p>I spent the first couple years of college chasing finite things—relationships, status, and worldly goals. After praying for discernment and sensing God moving in my heart, I felt called to gather my brothers and sisters at Baylor University to start this project. Our intention is to show how God has changed lives as people place their trust in Him, while boldly proclaiming the “Good News.”</p><p>Our ultimate goal is to abide in God’s will and work for Him. “The harvest is plentiful, but the workers are few.” We sense a revival of faith—and we want to be part of it. We want to plant seeds for the Holy Spirit to use to change lives.</p><p><em>Founder – Jackson Nugent</em></p>"
+        "heading_style": "display",
+        "text": "<p>I spent the first couple years of college chasing finite things—relationships, status, and worldly goals. After praying for discernment and sensing God moving in my heart, I felt called to gather my brothers and sisters at Baylor University to start this project. Our intention is to show how God has changed lives as people place their trust in Him, while boldly proclaiming the “Good News.”</p><p>Our ultimate goal is to abide in God’s will and work for Him. “The harvest is plentiful, but the workers are few.” We sense a revival of faith—and we want to be part of it. We want to plant seeds for the Holy Spirit to use to change lives.</p>",
+        "link_label": "",
+        "fallback": "floralPair"
+      }
+    },
+    "support": {
+      "type": "support-panel",
+      "settings": {
+        "heading": "How to support us",
+        "text": "<p>First and foremost, by praying: that we do this with humility, a pure heart, and obedience to Him. Then by wearing the clothes.</p>",
+        "button_label": "Shop the pieces",
+        "button_link": "shopify://collections/all"
       }
     },
     "quote": {
       "type": "quote",
       "settings": {
         "quote": "We want to plant seeds for the Holy Spirit to use to change lives.",
-        "cite": "Jackson Nugent, founder",
-        "link_label": "Shop the pieces",
-        "link": "shopify://collections/all"
+        "cite": "In Service – Jackson Nugent",
+        "signoff": true,
+        "link_label": ""
       }
     }
   },
-  "order": [
-    "intro",
-    "meaning",
-    "support",
-    "why",
-    "started",
-    "quote"
-  ]
+  "order": ["lead", "goal", "mission", "started", "support", "quote"]
 }

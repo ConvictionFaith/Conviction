@@ -11,6 +11,33 @@
     "name": "Colors",
     "settings": [
       {
+        "type": "select",
+        "id": "color_mode",
+        "label": "Color mode",
+        "info": "Seasonal look. White uses the colors below; Cream and Dark override them.",
+        "options": [
+          {
+            "value": "white",
+            "label": "White"
+          },
+          {
+            "value": "cream",
+            "label": "Cream"
+          },
+          {
+            "value": "dark",
+            "label": "Dark"
+          }
+        ],
+        "default": "white"
+      },
+      {
+        "type": "checkbox",
+        "id": "photo_grade",
+        "label": "Subtle color grade on photos",
+        "default": true
+      },
+      {
         "type": "color",
         "id": "color_paper",
         "label": "Background",

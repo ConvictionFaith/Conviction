@@ -1,7 +1,7 @@
 <section class="quote">
   <figure>
     <blockquote class="display quote__text" data-split>{{ section.settings.quote }}</blockquote>
-    {%- if section.settings.cite != blank -%}<figcaption class="quote__cite">{{ section.settings.cite }}</figcaption>{%- endif -%}
+    {%- if section.settings.cite != blank -%}<figcaption class="quote__cite{% if section.settings.signoff %} quote__cite--signoff{% endif %}">{{ section.settings.cite }}</figcaption>{%- endif -%}
   </figure>
   {%- if section.settings.link_label != blank -%}
     <a href="{{ section.settings.link }}" class="button">{{ section.settings.link_label }}</a>
@@ -15,6 +15,7 @@
   "settings": [
     { "type": "textarea", "id": "quote", "label": "Quote", "default": "We want to plant seeds for the Holy Spirit to use to change lives." },
     { "type": "text", "id": "cite", "label": "Who said it", "default": "the founder" },
+    { "type": "checkbox", "id": "signoff", "label": "Show as a bold sign-off", "default": false },
     { "type": "text", "id": "link_label", "label": "Button label", "default": "Shop the pieces" },
     { "type": "url", "id": "link", "label": "Button link", "default": "/collections/all" }
   ],

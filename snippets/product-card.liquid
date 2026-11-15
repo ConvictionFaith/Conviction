@@ -32,7 +32,7 @@
     assign is_new = true
   endif
 -%}
-<div class="card" data-product-card>
+<div class="card{% unless p.available %} card--sold{% endunless %}" data-product-card>
   <a href="{{ p.url }}" class="card__media{% if secondary %} card__media--swap{% endif %}" tabindex="-1" aria-hidden="true">
     {%- if p.featured_media -%}
       {{ p.featured_media | image_url: width: 1400 | image_tag:
@@ -52,12 +52,11 @@
     {%- else -%}
       {{ 'product-apparel-1' | placeholder_svg_tag: 'card__img card__placeholder' }}
     {%- endif -%}
+    {%- unless p.available -%}<span class="stamp">{{ 'products.sold_out' | t }}</span>{%- endunless -%}
   </a>
 
   {%- if is_new and p.available -%}
     <span class="card__badge">{{ 'products.new' | t }}</span>
-  {%- elsif p.available == false -%}
-    <span class="card__badge card__badge--muted">{{ 'products.sold_out' | t }}</span>
   {%- endif -%}
 
   {%- if quick_add and p.available and size_index >= 0 and p.options.size <= 2 -%}
@@ -91,7 +90,7 @@
 
   <a href="{{ p.url }}" class="card__info">
     <span class="card__title">{{ title }}</span>
-    {%- if color != blank -%}<span class="card__color">{{ color }}</span>{%- endif -%}
+    {%- if p.available == false -%}<span class="card__color">{{ 'products.sold_out' | t | capitalize }}</span>{%- elsif color != blank -%}<span class="card__color">{{ color }}</span>{%- endif -%}
     {% render 'price', target: p %}
   </a>
 </div>

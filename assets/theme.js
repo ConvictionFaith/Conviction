@@ -8,25 +8,6 @@
   const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 
-  /* ---------- Smooth scroll ---------- */
-  let lenis = null;
-  function initLenis() {
-    if (REDUCE || !window.Lenis || lenis) return;
-    lenis = new window.Lenis({ lerp: 0.12, wheelMultiplier: 1, smoothWheel: true });
-    const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
-    requestAnimationFrame(raf);
-    // Smooth in-page anchor links (e.g. /pages/help#shipping)
-    document.addEventListener('click', (e) => {
-      const a = e.target.closest('a[href*="#"]');
-      if (!a || a.origin !== location.origin || a.pathname !== location.pathname) return;
-      const target = a.hash && document.getElementById(decodeURIComponent(a.hash.slice(1)));
-      if (!target) return;
-      e.preventDefault();
-      lenis.scrollTo(target, { offset: -90, duration: 1 });
-      history.replaceState(null, '', a.hash);
-    });
-  }
-
   /* Photos fade in once loaded */
   const FADE_SEL = '.card__img, .iwt__img, .look__img, .product__img, .intro__img, .hero__img, .line__media img';
   document.addEventListener('load', (e) => {
@@ -52,7 +33,6 @@
       d.classList.add('is-open', 'is-fresh');
       setTimeout(() => d.classList.remove('is-fresh'), 1200);
       document.body.classList.add('has-drawer');
-      lenis && lenis.stop();
       const panel = $('.drawer__panel', d);
       panel && panel.focus();
     },
@@ -64,7 +44,6 @@
         d.hidden = true;
         d.classList.remove('is-open', 'is-closing');
         document.body.classList.remove('has-drawer');
-        lenis && lenis.start();
         if (this.lastFocus) this.lastFocus.focus();
       };
       if (REDUCE) return finish();
@@ -186,12 +165,116 @@
       const data = await Bag.add(fd);
       btn.classList.add('is-added');
       setTimeout(() => btn.classList.remove('is-added'), 1200);
+      const inBag = !!btn.closest('[data-cart-drawer]');
+      const wait = inBag ? 0 : flyToBag(btn);
+      if (wait) await new Promise((r) => setTimeout(r, wait));
+      closePops();
       await Bag.afterAdd(data);
     } catch (err) {
       alert(err.message || S.error);
     } finally {
       btn.disabled = false;
     }
+  });
+
+
+  /* ---------- Fly a dot from the button into the bag ---------- */
+  function flyToBag(src) {
+    const bag = $$('[data-cart-toggle]').find((b) => b.offsetParent !== null);
+    if (REDUCE || !src || !bag || T.cartType === 'page') return 0;
+    const a = src.getBoundingClientRect(), b = bag.getBoundingClientRect();
+    if (!a.width || !b.width) return 0;
+    const x = a.left + a.width / 2, y = a.top + a.height / 2, tx = b.left + b.width / 2, ty = b.top + b.height / 2;
+    const d = document.createElement('div'); d.className = 'fly'; document.body.appendChild(d);
+    d.animate([
+      { transform: `translate(${x}px, ${y}px) scale(1)` },
+      { transform: `translate(${(x + tx) / 2}px, ${Math.min(y, ty) - 110}px) scale(1.4)`, offset: 0.5 },
+      { transform: `translate(${tx}px, ${ty}px) scale(.3)`, opacity: 0.5 }
+    ], { duration: 600, easing: 'cubic-bezier(.5,0,.3,1)' }).onfinish = () => d.remove();
+    return 560;
+  }
+
+  /* ---------- Drop countdown ---------- */
+  const dropTimers = new WeakMap();
+  function initDrop(root = document) {
+    $$('[data-drop]', root).forEach((el) => {
+      clearInterval(dropTimers.get(el));
+      const at = Date.parse(el.dataset.dropAt || '');
+      if (Number.isNaN(at)) { $('[data-drop-clock]', el) && ($('[data-drop-clock]', el).hidden = true); return; }
+      const pad = (n) => String(n).padStart(2, '0');
+      const goLive = () => {
+        el.classList.add('is-live');
+        const t = $('[data-drop-title]', el); if (t) t.textContent = t.dataset.live;
+        const k = $('[data-drop-kicker]', el); if (k) k.hidden = true;
+        const l = $('[data-drop-live]', el); if (l) l.hidden = false;
+      };
+      const tick = () => {
+        const ms = at - Date.now();
+        if (ms <= 0) { goLive(); clearInterval(dropTimers.get(el)); return; }
+        const sec = Math.floor(ms / 1000);
+        const v = { d: Math.floor(sec / 86400), h: Math.floor(sec / 3600) % 24, m: Math.floor(sec / 60) % 60, s: sec % 60 };
+        Object.keys(v).forEach((u) => {
+          const n = $(`[data-u="${u}"]`, el); if (!n) return;
+          const t = pad(v[u]);
+          if (n.textContent !== t) { n.textContent = t; if (!REDUCE) { n.classList.remove('tick'); void n.offsetWidth; n.classList.add('tick'); } }
+        });
+      };
+      tick();
+      if (!el.classList.contains('is-live')) dropTimers.set(el, setInterval(tick, 1000));
+    });
+  }
+
+  /* ---------- Shop the look ---------- */
+  function closePops(except) {
+    $$('[data-pop]').forEach((p) => { if (p !== except) p.hidden = true; });
+    $$('[data-spot][aria-expanded="true"]').forEach((b) => { if (b.nextElementSibling !== except) b.setAttribute('aria-expanded', 'false'); });
+  }
+  document.addEventListener('click', (e) => {
+    const tab = e.target.closest('[data-look-tab]');
+    if (tab) {
+      const sec = tab.closest('[data-stl-section]');
+      closePops();
+      $$('[data-look-tab]', sec).forEach((b) => b.setAttribute('aria-selected', String(b === tab)));
+      $$('[data-stl]', sec).forEach((n) => { n.hidden = n.dataset.stl !== tab.dataset.lookTab; });
+      return;
+    }
+    const spot = e.target.closest('[data-spot]');
+    if (spot) {
+      const pop = spot.nextElementSibling;
+      const open = spot.getAttribute('aria-expanded') === 'true';
+      closePops();
+      if (open || !pop) return;
+      pop.style.left = spot.style.left; pop.style.top = spot.style.top;
+      pop.classList.toggle('pop--left', Number(spot.dataset.x) > 55);
+      pop.hidden = false; spot.setAttribute('aria-expanded', 'true');
+      return;
+    }
+    if (!e.target.closest('[data-pop]')) closePops();
+
+    const side = e.target.closest('[data-side]');
+    if (side) {
+      const f = side.closest('[data-flip]');
+      f.classList.toggle('is-back', side.dataset.side === 'back');
+      $$('[data-side]', f).forEach((b) => b.setAttribute('aria-pressed', String(b === side)));
+    }
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePops(); });
+
+  /* Back-in-stock form: show thanks after Shopify posts it */
+  function initNotify() {
+    if (/[?&]contact_posted=true/.test(location.search)) $$('[data-notify-success]').forEach((n) => { n.hidden = false; });
+  }
+
+
+  /* Ambassador code: Shopify's /discount/CODE link applies it at checkout */
+  document.addEventListener('submit', (e) => {
+    const f = e.target.closest('[data-code-form]');
+    if (!f) return;
+    e.preventDefault();
+    const code = f.code.value.trim();
+    const err = f.parentElement.querySelector('[data-code-error]');
+    if (!code) { if (err) err.hidden = false; f.code.focus(); return; }
+    window.location.href = `/discount/${encodeURIComponent(code.toUpperCase())}?redirect=${encodeURIComponent(f.dataset.redirect || '/collections/all')}`;
   });
 
   /* ---------- Product page ---------- */
@@ -296,6 +379,8 @@
       try {
         const data = await Bag.add(new FormData(form));
         addBtn.textContent = S.added;
+        const wait = flyToBag(addBtn);
+        if (wait) await new Promise((r) => setTimeout(r, wait));
         await Bag.afterAdd(data);
       } catch (err) {
         if (errorEl) { errorEl.textContent = err.message || S.error; errorEl.hidden = false; }
@@ -390,10 +475,6 @@
         else if (y < lastY - 4 || y < 240) header.classList.remove('is-hidden');
       }
       lastY = y;
-      if (!REDUCE) {
-        const par = $('[data-parallax]');
-        if (par && y < window.innerHeight * 1.2) par.style.transform = `translate3d(0, ${Math.round(y * 0.28)}px, 0)`;
-      }
       ticking = false;
     };
     window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
@@ -419,26 +500,16 @@
   });
 
 
-  /* Footer wordmark: reveal and let the photo drift inside the letters */
+  /* Footer wordmark: reveal once, no scroll work */
   function initBigmark() {
     const wrap = $('[data-bigmark]');
     if (!wrap || wrap.dataset.ready) return;
     wrap.dataset.ready = '1';
-    const fill = $('.bigmark__fill', wrap);
     if (REDUCE || !('IntersectionObserver' in window)) { wrap.classList.add('in'); return; }
-    let visible = false, ticking = false;
-    new IntersectionObserver((es) => es.forEach((e) => {
-      visible = e.isIntersecting;
-      if (e.isIntersecting) wrap.classList.add('in');
-    }), { threshold: [0, 0.2] }).observe(wrap);
-    const drift = () => {
-      ticking = false;
-      if (!visible) return;
-      const r = wrap.getBoundingClientRect();
-      const t = 1 - (r.top + r.height) / (window.innerHeight + r.height);
-      fill.style.backgroundPosition = `50% ${Math.round(20 + t * 60)}%`;
-    };
-    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(drift); } }, { passive: true });
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { wrap.classList.add('in'); io.disconnect(); }
+    }), { threshold: 0.2 });
+    io.observe(wrap);
   }
 
   /* ---------- Sorting ---------- */
@@ -447,13 +518,14 @@
   });
 
   function init() {
-    initLenis();
     sweepImages();
     initMotion();
     initBigmark();
     $$('[data-product-section]').forEach(initProduct);
     initRecommendations();
     initFilm();
+    initDrop();
+    initNotify();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
@@ -467,5 +539,6 @@
     s && initProduct(s);
     initRecommendations();
     initFilm();
+    initDrop(e.target);
   });
 })();

@@ -1,7 +1,26 @@
 {%- liquid
   assign current = product.selected_or_first_available_variant
   assign short_title = product.metafields.custom.short_title.value
+  assign notify_form_id = 'notify-form-' | append: section.id
   assign media_count = product.media.size
+
+  assign flip_front = product.metafields.custom.flip_front.value
+  assign flip_back = product.metafields.custom.flip_back.value
+  assign flip_skip = 0
+  if section.settings.flip
+    if flip_front == blank and product.media.size >= 2
+      assign flip_front = product.media[0]
+      assign flip_back = product.media[1]
+      assign flip_skip = 2
+    endif
+  endif
+  assign flip_front_alt = flip_front.alt | default: 'Front'
+  assign flip_back_alt = flip_back.alt | default: 'Back'
+  assign has_flip = false
+  if section.settings.flip and flip_front != blank and flip_back != blank
+    assign has_flip = true
+    assign media_count = media_count | minus: flip_skip | plus: 1
+  endif
 -%}
 <section class="product" data-product-section data-section="{{ section.id }}">
   <nav class="crumbs" aria-label="Breadcrumb">
@@ -15,11 +34,27 @@
   <div class="product__layout">
     <div class="product__gallery" data-gallery>
       <ul class="product__media-list" role="list" data-gallery-track>
-        {%- for media in product.media -%}
+        {%- if has_flip -%}
+          <li class="product__media flip{% if section.settings.flip_start == 'back' %} is-back{% endif %}" data-flip>
+            <div class="flip__card">
+              <div class="flip__face flip__front">
+                {{ flip_front | image_url: width: 2000 | image_tag: widths: '600,900,1200,1600,2000', sizes: '(min-width: 990px) 66vw, 100vw', loading: 'eager', fetchpriority: 'high', class: 'product__img', alt: flip_front_alt }}
+              </div>
+              <div class="flip__face flip__back">
+                {{ flip_back | image_url: width: 2000 | image_tag: widths: '600,900,1200,1600,2000', sizes: '(min-width: 990px) 66vw, 100vw', loading: 'eager', class: 'product__img', alt: flip_back_alt }}
+              </div>
+            </div>
+            <div class="flip__ctl" role="group" aria-label="Show print">
+              <button type="button" data-side="front" aria-pressed="{% if section.settings.flip_start == 'back' %}false{% else %}true{% endif %}">Front</button>
+              <button type="button" data-side="back" aria-pressed="{% if section.settings.flip_start == 'back' %}true{% else %}false{% endif %}">Back</button>
+            </div>
+          </li>
+        {%- endif -%}
+        {%- for media in product.media offset: flip_skip -%}
           <li class="product__media" data-media-id="{{ media.id }}">
             {%- case media.media_type -%}
               {%- when 'image' -%}
-                {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- assign img_priority = 'high' -%}{%- else -%}{%- assign img_loading = 'lazy' -%}{%- assign img_priority = 'auto' -%}{%- endif -%}
+                {%- if forloop.first and has_flip == false -%}{%- assign img_loading = 'eager' -%}{%- assign img_priority = 'high' -%}{%- else -%}{%- assign img_loading = 'lazy' -%}{%- assign img_priority = 'auto' -%}{%- endif -%}
                 {{ media | image_url: width: 2200 | image_tag:
                     widths: '600,900,1200,1600,2200',
                     sizes: '(min-width: 990px) 33vw, 100vw',
@@ -34,7 +69,7 @@
             {%- endcase -%}
           </li>
         {%- else -%}
-          <li class="product__media">{{ 'product-apparel-1' | placeholder_svg_tag: 'product__img card__placeholder' }}</li>
+          {%- unless has_flip -%}<li class="product__media">{{ 'product-apparel-1' | placeholder_svg_tag: 'product__img card__placeholder' }}</li>{%- endunless -%}
         {%- endfor -%}
       </ul>
       {%- if media_count > 1 -%}
@@ -61,7 +96,7 @@
 
             {%- when 'price' -%}
               <div class="product__price" data-price-wrap {{ block.shopify_attributes }}>
-                {% render 'price', target: current %}
+                {% render 'price', target: current %}{% unless product.available %} <span class="pill">{{ 'products.sold_out' | t }}</span>{% endunless %}
               </div>
 
             {%- when 'variant_picker' -%}
@@ -119,6 +154,17 @@
                   endfor
                 endif
               -%}
+              {%- unless product.available -%}
+              <div class="notify" {{ block.shopify_attributes }}>
+                <p>{{ block.settings.notify_text }}</p>
+                <div class="inline-form">
+                  <label class="visually-hidden" for="notify-{{ section.id }}">Email</label>
+                  <input class="field" id="notify-{{ section.id }}" type="email" autocomplete="email" placeholder="Email address" form="notify-form-{{ section.id }}" name="contact[email]" required>
+                  <button type="submit" class="button" form="notify-form-{{ section.id }}">{{ block.settings.notify_button }}</button>
+                </div>
+                <p class="form-note" role="status" data-notify-success hidden>{{ block.settings.notify_success }}</p>
+              </div>
+              {%- else -%}
               <div class="product__buy" {{ block.shopify_attributes }}>
                 <button type="submit"
                   class="button button--block"
@@ -132,6 +178,7 @@
                 {%- endif -%}
                 <p class="product__error" role="alert" data-form-error hidden></p>
               </div>
+              {%- endunless -%}
 
             {%- when 'note' -%}
               <p class="product__note" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
@@ -188,6 +235,12 @@
           {%- endcase -%}
         {%- endfor -%}
       {%- endform -%}
+      {%- unless product.available -%}
+        {%- form 'contact', id: notify_form_id, class: 'visually-hidden' -%}
+          <input type="hidden" name="contact[body]" value="Back-in-stock request: {{ product.title | escape }} ({{ shop.url }}{{ product.url }})">
+          <input type="hidden" name="contact[tags]" value="back-in-stock">
+        {%- endform -%}
+      {%- endunless -%}
     </div>
   </div>
 
@@ -218,6 +271,10 @@
 {
   "name": "Product",
   "class": "section-product",
+  "settings": [
+    { "type": "checkbox", "id": "flip", "label": "Front/back flip as the first photo", "info": "Uses the product metafields custom.flip_front and custom.flip_back (images). Without them, the product's first two photos.", "default": true },
+    { "type": "select", "id": "flip_start", "label": "Flip starts on", "options": [ { "value": "back", "label": "Back" }, { "value": "front", "label": "Front" } ], "default": "back" }
+  ],
   "blocks": [
     { "type": "title", "name": "Title", "limit": 1 },
     { "type": "price", "name": "Price", "limit": 1 },
@@ -231,7 +288,11 @@
       "type": "buy_buttons", "name": "Add to bag", "limit": 1,
       "settings": [
         { "type": "checkbox", "id": "require_size", "label": "Make shoppers pick a size", "info": "Keep this matching the Size and color block.", "default": true },
-        { "type": "checkbox", "id": "dynamic_checkout", "label": "Show Shop Pay / Apple Pay button", "default": false }
+        { "type": "checkbox", "id": "dynamic_checkout", "label": "Show Shop Pay / Apple Pay button", "default": false },
+        { "type": "header", "content": "When the whole product is sold out" },
+        { "type": "text", "id": "notify_text", "label": "Message", "default": "Sold out for now. Leave your email and we’ll tell you when it’s back." },
+        { "type": "text", "id": "notify_button", "label": "Button", "default": "Notify me" },
+        { "type": "text", "id": "notify_success", "label": "Thank-you message", "default": "Got it. We’ll email you when it’s back." }
       ]
     },
     {

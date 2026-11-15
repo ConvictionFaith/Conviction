@@ -1,0 +1,277 @@
+{%- capture f1 -%}object-position: {{ section.settings.focal_1 }}{%- endcapture -%}{%- capture f2 -%}object-position: {{ section.settings.focal_2 }}{%- endcapture -%}
+<section class="photo-strip">
+  <div data-reveal>{%- if section.settings.image_1 != blank -%}{{ section.settings.image_1 | image_url: width: 2400 | image_tag: widths: '750,1100,1500,2000,2400', sizes: '(min-width: 750px) 66vw, 100vw', loading: 'lazy', class: 'cv-fill', alt: section.settings.alt_1, style: f1 }}{%- elsif section.settings.image_1_fallback != 'none' -%}{% render 'cv-photo', key: section.settings.image_1_fallback, class: 'cv-fill', alt: section.settings.alt_1, style: f1 %}{%- endif -%}</div>
+  <div data-reveal>{%- if section.settings.image_2 != blank -%}{{ section.settings.image_2 | image_url: width: 2400 | image_tag: widths: '750,1100,1500,2000,2400', sizes: '(min-width: 750px) 33vw, 100vw', loading: 'lazy', class: 'cv-fill', alt: section.settings.alt_2, style: f2 }}{%- elsif section.settings.image_2_fallback != 'none' -%}{% render 'cv-photo', key: section.settings.image_2_fallback, class: 'cv-fill', alt: section.settings.alt_2, style: f2 %}{%- endif -%}</div>
+</section>
+
+{% schema %}
+{
+  "name": "Two photos",
+  "class": "section-photo-strip",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Wide photo"
+    },
+    {
+      "type": "select",
+      "id": "image_1_fallback",
+      "label": "Built-in photo (used when no image is chosen)",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "sunset",
+          "label": "Sunset over the hills (John 16:8 back)"
+        },
+        {
+          "value": "trio",
+          "label": "Trio against the sky (floral)"
+        },
+        {
+          "value": "trio2",
+          "label": "Trio laughing, floral back"
+        },
+        {
+          "value": "johnBack",
+          "label": "John 16:8 back, close"
+        },
+        {
+          "value": "johnBackClean",
+          "label": "John 16:8 back print, clean"
+        },
+        {
+          "value": "johnPair",
+          "label": "John 16:8 pair on the street"
+        },
+        {
+          "value": "johnPair2",
+          "label": "John 16:8 pair, back and front"
+        },
+        {
+          "value": "johnSmile",
+          "label": "John 16:8, smiling in the woods"
+        },
+        {
+          "value": "stoneTable",
+          "label": "John 16:8 back, stone table"
+        },
+        {
+          "value": "hat",
+          "label": "éleyxos front, straw hat"
+        },
+        {
+          "value": "eleyxos",
+          "label": "éleyxos close-up"
+        },
+        {
+          "value": "floralPair",
+          "label": "Floral pair on the street"
+        },
+        {
+          "value": "floralBack",
+          "label": "Floral back on the street"
+        },
+        {
+          "value": "floralChest",
+          "label": "Conviction logo close-up"
+        },
+        {
+          "value": "levee",
+          "label": "Floral front at dusk"
+        },
+        {
+          "value": "floralWater",
+          "label": "Floral back at the water"
+        },
+        {
+          "value": "floralRocks",
+          "label": "Floral back on the rocks"
+        },
+        {
+          "value": "jerseySolo",
+          "label": "Jersey, smiling on the street"
+        },
+        {
+          "value": "jerseyPair",
+          "label": "Jersey pair under trees"
+        },
+        {
+          "value": "jerseyPair2",
+          "label": "Jersey pair, standing and crouching"
+        },
+        {
+          "value": "jerseyBack",
+          "label": "Jersey back, Romans 8:6"
+        },
+        {
+          "value": "jerseyChest",
+          "label": "Jersey chest close-up"
+        },
+        {
+          "value": "jerseySky",
+          "label": "Jersey back, pink sky"
+        },
+        {
+          "value": "girls",
+          "label": "Two friends laughing in the jersey"
+        },
+        {
+          "value": "bench",
+          "label": "Jersey and John 16:8 on a bench"
+        }
+      ],
+      "default": "trio2"
+    },
+    {
+      "type": "text",
+      "id": "focal_1",
+      "label": "Focus",
+      "default": "50% 40%"
+    },
+    {
+      "type": "text",
+      "id": "alt_1",
+      "label": "Description",
+      "default": "Three friends laughing against a blue sky in the Romans 8:5–6 tee"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Narrow photo"
+    },
+    {
+      "type": "select",
+      "id": "image_2_fallback",
+      "label": "Built-in photo (used when no image is chosen)",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "sunset",
+          "label": "Sunset over the hills (John 16:8 back)"
+        },
+        {
+          "value": "trio",
+          "label": "Trio against the sky (floral)"
+        },
+        {
+          "value": "trio2",
+          "label": "Trio laughing, floral back"
+        },
+        {
+          "value": "johnBack",
+          "label": "John 16:8 back, close"
+        },
+        {
+          "value": "johnBackClean",
+          "label": "John 16:8 back print, clean"
+        },
+        {
+          "value": "johnPair",
+          "label": "John 16:8 pair on the street"
+        },
+        {
+          "value": "johnPair2",
+          "label": "John 16:8 pair, back and front"
+        },
+        {
+          "value": "johnSmile",
+          "label": "John 16:8, smiling in the woods"
+        },
+        {
+          "value": "stoneTable",
+          "label": "John 16:8 back, stone table"
+        },
+        {
+          "value": "hat",
+          "label": "éleyxos front, straw hat"
+        },
+        {
+          "value": "eleyxos",
+          "label": "éleyxos close-up"
+        },
+        {
+          "value": "floralPair",
+          "label": "Floral pair on the street"
+        },
+        {
+          "value": "floralBack",
+          "label": "Floral back on the street"
+        },
+        {
+          "value": "floralChest",
+          "label": "Conviction logo close-up"
+        },
+        {
+          "value": "levee",
+          "label": "Floral front at dusk"
+        },
+        {
+          "value": "floralWater",
+          "label": "Floral back at the water"
+        },
+        {
+          "value": "floralRocks",
+          "label": "Floral back on the rocks"
+        },
+        {
+          "value": "jerseySolo",
+          "label": "Jersey, smiling on the street"
+        },
+        {
+          "value": "jerseyPair",
+          "label": "Jersey pair under trees"
+        },
+        {
+          "value": "jerseyPair2",
+          "label": "Jersey pair, standing and crouching"
+        },
+        {
+          "value": "jerseyBack",
+          "label": "Jersey back, Romans 8:6"
+        },
+        {
+          "value": "jerseyChest",
+          "label": "Jersey chest close-up"
+        },
+        {
+          "value": "jerseySky",
+          "label": "Jersey back, pink sky"
+        },
+        {
+          "value": "girls",
+          "label": "Two friends laughing in the jersey"
+        },
+        {
+          "value": "bench",
+          "label": "Jersey and John 16:8 on a bench"
+        }
+      ],
+      "default": "johnSmile"
+    },
+    {
+      "type": "text",
+      "id": "focal_2",
+      "label": "Focus",
+      "default": "50% 35%"
+    },
+    {
+      "type": "text",
+      "id": "alt_2",
+      "label": "Description",
+      "default": "Smiling in the woods in the John 16:8 tee"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two photos"
+    }
+  ]
+}
+{% endschema %}

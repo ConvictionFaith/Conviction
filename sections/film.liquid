@@ -29,12 +29,15 @@
         data-label-on="{{ section.settings.sound_on_label | escape }}"
         data-label-off="{{ section.settings.sound_label | escape }}">{{ section.settings.sound_label }}</button>
     {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link | default: '/pages/about' }}" class="button button--light">{{ section.settings.button_label }}</a>
+    {%- endif -%}
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Film",
+  "name": "Closing banner",
   "class": "section-film",
   "settings": [
     {
@@ -53,52 +56,104 @@
           "label": "None"
         },
         {
-          "value": "johnBack",
-          "label": "John 16:8 back, close"
+          "value": "sunset",
+          "label": "Sunset over the hills (John 16:8 back)"
         },
         {
           "value": "trio",
           "label": "Trio against the sky (floral)"
         },
         {
-          "value": "sunset",
-          "label": "Sunset over the hills (John 16:8 back)"
+          "value": "trio2",
+          "label": "Trio laughing, floral back"
         },
         {
-          "value": "hat",
-          "label": "éleyxos front, straw hat"
+          "value": "johnBack",
+          "label": "John 16:8 back, close"
         },
         {
-          "value": "jerseyPair",
-          "label": "Jersey pair under trees"
-        },
-        {
-          "value": "floralPair",
-          "label": "Floral pair on the street"
-        },
-        {
-          "value": "floralChest",
-          "label": "Conviction logo close-up"
-        },
-        {
-          "value": "floralBack",
-          "label": "Floral back on the street"
+          "value": "johnBackClean",
+          "label": "John 16:8 back print, clean"
         },
         {
           "value": "johnPair",
           "label": "John 16:8 pair on the street"
         },
         {
+          "value": "johnPair2",
+          "label": "John 16:8 pair, back and front"
+        },
+        {
+          "value": "johnSmile",
+          "label": "John 16:8, smiling in the woods"
+        },
+        {
+          "value": "stoneTable",
+          "label": "John 16:8 back, stone table"
+        },
+        {
+          "value": "hat",
+          "label": "éleyxos front, straw hat"
+        },
+        {
           "value": "eleyxos",
           "label": "éleyxos close-up"
+        },
+        {
+          "value": "floralPair",
+          "label": "Floral pair on the street"
+        },
+        {
+          "value": "floralBack",
+          "label": "Floral back on the street"
+        },
+        {
+          "value": "floralChest",
+          "label": "Conviction logo close-up"
+        },
+        {
+          "value": "levee",
+          "label": "Floral front at dusk"
+        },
+        {
+          "value": "floralWater",
+          "label": "Floral back at the water"
+        },
+        {
+          "value": "floralRocks",
+          "label": "Floral back on the rocks"
+        },
+        {
+          "value": "jerseySolo",
+          "label": "Jersey, smiling on the street"
+        },
+        {
+          "value": "jerseyPair",
+          "label": "Jersey pair under trees"
+        },
+        {
+          "value": "jerseyPair2",
+          "label": "Jersey pair, standing and crouching"
+        },
+        {
+          "value": "jerseyBack",
+          "label": "Jersey back, Romans 8:6"
         },
         {
           "value": "jerseyChest",
           "label": "Jersey chest close-up"
         },
         {
-          "value": "levee",
-          "label": "Floral front at dusk"
+          "value": "jerseySky",
+          "label": "Jersey back, pink sky"
+        },
+        {
+          "value": "girls",
+          "label": "Two friends laughing in the jersey"
+        },
+        {
+          "value": "bench",
+          "label": "Jersey and John 16:8 on a bench"
         }
       ],
       "default": "trio"
@@ -112,8 +167,7 @@
     {
       "type": "text",
       "id": "kicker",
-      "label": "Small line above heading",
-      "default": "The film"
+      "label": "Small line above heading"
     },
     {
       "type": "text",
@@ -132,6 +186,17 @@
       "id": "sound_on_label",
       "label": "Sound button while playing with sound",
       "default": "mute"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "About us"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
     }
   ],
   "presets": [

@@ -1,0 +1,106 @@
+<section class="block-pad split2">
+  <div>
+    <div class="row-head"><h2 class="row-head__title">{{ section.settings.campus_heading }}</h2></div>
+    <ul class="campus">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}><strong>{{ block.settings.name }}</strong>
+          <span>{%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" class="text-link">{{ block.settings.note }}</a>{%- else -%}{{ block.settings.note }}{%- endif -%}</span></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  <div>
+    <div class="row-head"><h2 class="row-head__title">{{ section.settings.code_heading }}</h2></div>
+    <p class="split2__p">{{ section.settings.code_text }}</p>
+    <form class="inline-form" data-code-form data-redirect="{{ section.settings.redirect | default: routes.all_products_collection_url }}" novalidate>
+      <label class="visually-hidden" for="amb-code-{{ section.id }}">Ambassador code</label>
+      <input class="field" id="amb-code-{{ section.id }}" type="text" name="code" autocomplete="off" autocapitalize="characters" placeholder="{{ section.settings.placeholder | escape }}" required>
+      <button class="button" type="submit">{{ section.settings.button }}</button>
+    </form>
+    <p class="form-note" role="alert" data-code-error hidden>Enter a code first.</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campuses and codes",
+  "class": "section-campus",
+  "max_blocks": 30,
+  "settings": [
+    {
+      "type": "text",
+      "id": "campus_heading",
+      "label": "Campuses heading",
+      "default": "Campuses"
+    },
+    {
+      "type": "text",
+      "id": "code_heading",
+      "label": "Code heading",
+      "default": "Have a code?"
+    },
+    {
+      "type": "text",
+      "id": "code_text",
+      "label": "Code text",
+      "default": "Enter an ambassador’s code and it’s applied when you check out."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Code field text",
+      "default": "e.g. BAYLOR-JACKSON"
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Button",
+      "default": "Apply code"
+    },
+    {
+      "type": "url",
+      "id": "redirect",
+      "label": "Where to send shoppers after the code is applied",
+      "info": "Defaults to all products."
+    },
+    {
+      "type": "paragraph",
+      "content": "Codes are Shopify discounts: Discounts → Create discount → Amount off order, then type the code. Each ambassador can also share yourstore.com/discount/THEIRCODE."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "campus",
+      "name": "Campus",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "School",
+          "default": "Baylor University"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note",
+          "default": "Where it started"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Campuses and codes",
+      "blocks": [
+        {
+          "type": "campus"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -6,42 +6,81 @@
   assign w = 1600
   assign h = 1067
   case key
-    when 'johnBack'
-      assign w = 1100
-      assign h = 1650
-    when 'trio'
+    when 'bench'
       assign w = 1800
       assign h = 1200
-    when 'sunset'
-      assign w = 2000
-      assign h = 1333
-    when 'hat'
-      assign w = 1300
-      assign h = 866
-    when 'jerseyPair'
-      assign w = 1600
-      assign h = 1066
-    when 'floralPair'
-      assign w = 1100
-      assign h = 1650
-    when 'floralChest'
+    when 'eleyxos'
       assign w = 1200
       assign h = 800
     when 'floralBack'
       assign w = 1100
       assign h = 1650
-    when 'johnPair'
-      assign w = 1600
-      assign h = 1066
-    when 'eleyxos'
+    when 'floralChest'
       assign w = 1200
       assign h = 800
+    when 'floralPair'
+      assign w = 1100
+      assign h = 1650
+    when 'floralRocks'
+      assign w = 1100
+      assign h = 1650
+    when 'floralWater'
+      assign w = 1800
+      assign h = 1200
+    when 'girls'
+      assign w = 1600
+      assign h = 1067
+    when 'hat'
+      assign w = 1300
+      assign h = 866
+    when 'jerseyBack'
+      assign w = 1100
+      assign h = 1650
     when 'jerseyChest'
       assign w = 1200
       assign h = 800
+    when 'jerseyPair'
+      assign w = 1600
+      assign h = 1066
+    when 'jerseyPair2'
+      assign w = 1600
+      assign h = 1067
+    when 'jerseySky'
+      assign w = 1100
+      assign h = 1650
+    when 'jerseySolo'
+      assign w = 1100
+      assign h = 1650
+    when 'johnBack'
+      assign w = 1100
+      assign h = 1650
+    when 'johnBackClean'
+      assign w = 1100
+      assign h = 1650
+    when 'johnPair'
+      assign w = 1600
+      assign h = 1066
+    when 'johnPair2'
+      assign w = 1100
+      assign h = 1650
+    when 'johnSmile'
+      assign w = 1100
+      assign h = 1650
     when 'levee'
       assign w = 1100
       assign h = 1650
+    when 'stoneTable'
+      assign w = 1100
+      assign h = 1650
+    when 'sunset'
+      assign w = 2000
+      assign h = 1333
+    when 'trio'
+      assign w = 1800
+      assign h = 1200
+    when 'trio2'
+      assign w = 1800
+      assign h = 1200
   endcase
   assign src = 'cv-' | append: key | append: '.webp' | asset_url
 -%}

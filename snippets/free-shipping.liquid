@@ -19,4 +19,38 @@
     </p>
     <div class="ship__bar" aria-hidden="true"><span style="width: {{ pct }}%"></span></div>
   </div>
+  {%- if remaining > 0 -%}
+    {%- liquid
+      assign in_cart = cart.items | map: 'product_id' | join: ','
+      assign in_cart = ',' | append: in_cart | append: ','
+      assign pick = nil
+      assign fallback_pick = nil
+      for cand in collections.all.products limit: 50
+        unless cand.available
+          continue
+        endunless
+        if cand.price < remaining
+          continue
+        endif
+        assign mark = ',' | append: cand.id | append: ','
+        if in_cart contains mark
+          if fallback_pick == nil or cand.price < fallback_pick.price
+            assign fallback_pick = cand
+          endif
+        elsif pick == nil or cand.price < pick.price
+          assign pick = cand
+        endif
+      endfor
+      assign pick = pick | default: fallback_pick
+    -%}
+    {%- if pick -%}
+      <div class="nudge">
+        <a href="{{ pick.url }}" class="nudge__img">
+          {%- if pick.featured_media -%}{{ pick.featured_media | image_url: width: 160 | image_tag: class: 'cv-fill', loading: 'lazy', alt: '' }}{%- endif -%}
+        </a>
+        <p>Add the <a href="{{ pick.url }}" class="text-link">{{ pick.metafields.custom.short_title.value | default: pick.title }}</a> ({{ pick.price | money }}) and shipping is free.</p>
+        {% render 'size-buttons', p: pick, class: 'nudge__sizes' %}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
 {%- endif -%}

@@ -4,7 +4,7 @@ A custom Online Store 2.0 theme for conviction.faith. Everything below is done i
 
 ## 1. Install
 
-Online Store → Themes → Add theme → Upload zip file → choose `conviction-theme.zip`. Click **Customize** to preview before publishing.
+This theme is connected to GitHub (ConvictionFaith/Conviction, branch `main`). Every change merged into `main` syncs to the connected theme in Online Store → Themes. Preview it there before publishing.
 
 ## 2. Pages and menus
 
@@ -14,6 +14,7 @@ Create two pages in Online Store → Pages and pick their template (right-hand p
 |---|---|---|
 | About | `page.about` | `about` |
 | Help | `page.help` | `help` |
+| Ambassadors | `page.ambassadors` | `ambassadors` |
 
 The About and Help text from the current site is already filled in on those templates; edit it in the theme editor. The page's own content box can stay empty.
 
@@ -32,6 +33,10 @@ Menus (Online Store → Navigation):
 | Short title | `custom.short_title` | Single line text |
 | Details | `custom.details` | Multi-line text |
 | Size chart | `custom.size_chart` | Page (reference) |
+| Flip front | `custom.flip_front` | File (image) |
+| Flip back | `custom.flip_back` | File (image) |
+
+**Front/back flip.** The first photo on each product page flips between the front and back print. It uses the Flip front / Flip back images; without them it uses the product's first two photos.
 
 **Details** is one `Label: value` per line, for example:
 
@@ -112,3 +117,14 @@ Old product URLs were `/shop/<handle>`; Shopify's are `/products/<handle>`. Add 
 - `/shop/romans-8-6-jersey` → `/products/<your handle>`
 - `/about` → `/pages/about`
 - `/help` → `/pages/help`
+
+
+## Features carried over from the demo
+
+- **Drop countdown** (home): set the date in the section. Emails land in Customers, tagged `drop`.
+- **Shop the look** (home): pick a photo, then up to 3 products and where their dots sit (across % / down %).
+- **Sold out**: automatic from inventory. The card gets a stamp. When every size is gone, the product page shows a "Notify me" form, and requests arrive by email tagged `back-in-stock`.
+- **Free-shipping nudge**: the bag suggests the cheapest piece that gets the order over the threshold (Theme settings → Cart).
+- **Color mode**: Theme settings → Colors → Color mode (White, Cream, Dark).
+- **Photo grade**: Theme settings → Colors → Subtle color grade on photos.
+- **Ambassador codes**: create each code in Discounts. Shoppers can type it on the Ambassadors page, or use the link `conviction.faith/discount/CODE`. Applications arrive by email, tagged `ambassador-application`.

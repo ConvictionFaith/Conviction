@@ -3,7 +3,7 @@
   assign mobile = section.settings.image_mobile | default: img
 -%}
 <section class="hero hero--{{ section.settings.height }}" data-hero style="--overlay: {{ section.settings.overlay | divided_by: 100.0 }}">
-  <div class="hero__media" data-parallax>
+  <div class="hero__media">
     {%- if img != blank -%}
       <picture>
         {%- if section.settings.image_mobile != blank -%}
@@ -56,52 +56,104 @@
           "label": "None"
         },
         {
-          "value": "johnBack",
-          "label": "John 16:8 back, close"
+          "value": "sunset",
+          "label": "Sunset over the hills (John 16:8 back)"
         },
         {
           "value": "trio",
           "label": "Trio against the sky (floral)"
         },
         {
-          "value": "sunset",
-          "label": "Sunset over the hills (John 16:8 back)"
+          "value": "trio2",
+          "label": "Trio laughing, floral back"
         },
         {
-          "value": "hat",
-          "label": "éleyxos front, straw hat"
+          "value": "johnBack",
+          "label": "John 16:8 back, close"
         },
         {
-          "value": "jerseyPair",
-          "label": "Jersey pair under trees"
-        },
-        {
-          "value": "floralPair",
-          "label": "Floral pair on the street"
-        },
-        {
-          "value": "floralChest",
-          "label": "Conviction logo close-up"
-        },
-        {
-          "value": "floralBack",
-          "label": "Floral back on the street"
+          "value": "johnBackClean",
+          "label": "John 16:8 back print, clean"
         },
         {
           "value": "johnPair",
           "label": "John 16:8 pair on the street"
         },
         {
+          "value": "johnPair2",
+          "label": "John 16:8 pair, back and front"
+        },
+        {
+          "value": "johnSmile",
+          "label": "John 16:8, smiling in the woods"
+        },
+        {
+          "value": "stoneTable",
+          "label": "John 16:8 back, stone table"
+        },
+        {
+          "value": "hat",
+          "label": "éleyxos front, straw hat"
+        },
+        {
           "value": "eleyxos",
           "label": "éleyxos close-up"
+        },
+        {
+          "value": "floralPair",
+          "label": "Floral pair on the street"
+        },
+        {
+          "value": "floralBack",
+          "label": "Floral back on the street"
+        },
+        {
+          "value": "floralChest",
+          "label": "Conviction logo close-up"
+        },
+        {
+          "value": "levee",
+          "label": "Floral front at dusk"
+        },
+        {
+          "value": "floralWater",
+          "label": "Floral back at the water"
+        },
+        {
+          "value": "floralRocks",
+          "label": "Floral back on the rocks"
+        },
+        {
+          "value": "jerseySolo",
+          "label": "Jersey, smiling on the street"
+        },
+        {
+          "value": "jerseyPair",
+          "label": "Jersey pair under trees"
+        },
+        {
+          "value": "jerseyPair2",
+          "label": "Jersey pair, standing and crouching"
+        },
+        {
+          "value": "jerseyBack",
+          "label": "Jersey back, Romans 8:6"
         },
         {
           "value": "jerseyChest",
           "label": "Jersey chest close-up"
         },
         {
-          "value": "levee",
-          "label": "Floral front at dusk"
+          "value": "jerseySky",
+          "label": "Jersey back, pink sky"
+        },
+        {
+          "value": "girls",
+          "label": "Two friends laughing in the jersey"
+        },
+        {
+          "value": "bench",
+          "label": "Jersey and John 16:8 on a bench"
         }
       ],
       "default": "sunset"
@@ -120,6 +172,10 @@
         {
           "value": "object-position: center",
           "label": "Center"
+        },
+        {
+          "value": "object-position: 58% 50%",
+          "label": "Center, slightly right"
         },
         {
           "value": "object-position: top",

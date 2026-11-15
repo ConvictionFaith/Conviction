@@ -1,0 +1,16 @@
+<section class="statement">
+  {%- if section.settings.cross -%}<span class="cross" aria-hidden="true"></span>{%- endif -%}
+  <p class="display statement__t" data-split>{{ section.settings.text }}</p>
+</section>
+
+{% schema %}
+{
+  "name": "Statement",
+  "class": "section-statement",
+  "settings": [
+    { "type": "textarea", "id": "text", "label": "Statement", "default": "The goal of the brand Conviction is to plant seeds so the Holy Spirit can work through them." },
+    { "type": "checkbox", "id": "cross", "label": "Show the small cross", "default": true }
+  ],
+  "presets": [{ "name": "Statement" }]
+}
+{% endschema %}

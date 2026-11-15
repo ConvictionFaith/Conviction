@@ -32,4 +32,9 @@
     {%- endcase %}
     --page-width: {{ settings.page_width }}px;
   }
+  {%- if settings.color_mode == 'cream' %}
+  :root { --paper: #EFE8D8; --ink: #141210; --stone: #E2D9C6; --mute: #6A6357; --rule: #D2C8B4; }
+  {%- elsif settings.color_mode == 'dark' %}
+  :root { --paper: #000000; --ink: #F4F4F2; --stone: #1C1C1B; --mute: #9A9A98; --rule: #2E2E2D; color-scheme: dark; }
+  {%- endif %}
 </style>

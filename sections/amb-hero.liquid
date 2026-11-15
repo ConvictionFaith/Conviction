@@ -1,0 +1,170 @@
+{%- capture focal -%}object-position: {{ section.settings.focal }}{%- endcapture -%}
+<section class="amb-hero">
+  {%- if section.settings.image != blank -%}{{ section.settings.image | image_url: width: 2400 | image_tag: widths: '750,1100,1500,2000,2400', sizes: '100vw', loading: 'eager', class: 'cv-fill', alt: section.settings.heading, style: focal }}{%- elsif section.settings.image_fallback != 'none' -%}{% render 'cv-photo', key: section.settings.image_fallback, class: 'cv-fill', alt: section.settings.heading, eager: true, style: focal %}{%- endif -%}
+  <div class="amb-hero__in">
+    {%- if section.settings.kicker != blank -%}<p class="kicker amb-hero__k">{{ section.settings.kicker }}</p>{%- endif -%}
+    <h1 class="display amb-hero__h" data-split>{{ section.settings.heading | default: page.title }}</h1>
+    {%- if section.settings.button_label != blank -%}<a href="{{ section.settings.button_link | default: '#apply' }}" class="button button--light">{{ section.settings.button_label }}</a>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Big photo header",
+  "class": "section-amb-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo"
+    },
+    {
+      "type": "select",
+      "id": "image_fallback",
+      "label": "Built-in photo (used when no image is chosen)",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "sunset",
+          "label": "Sunset over the hills (John 16:8 back)"
+        },
+        {
+          "value": "trio",
+          "label": "Trio against the sky (floral)"
+        },
+        {
+          "value": "trio2",
+          "label": "Trio laughing, floral back"
+        },
+        {
+          "value": "johnBack",
+          "label": "John 16:8 back, close"
+        },
+        {
+          "value": "johnBackClean",
+          "label": "John 16:8 back print, clean"
+        },
+        {
+          "value": "johnPair",
+          "label": "John 16:8 pair on the street"
+        },
+        {
+          "value": "johnPair2",
+          "label": "John 16:8 pair, back and front"
+        },
+        {
+          "value": "johnSmile",
+          "label": "John 16:8, smiling in the woods"
+        },
+        {
+          "value": "stoneTable",
+          "label": "John 16:8 back, stone table"
+        },
+        {
+          "value": "hat",
+          "label": "éleyxos front, straw hat"
+        },
+        {
+          "value": "eleyxos",
+          "label": "éleyxos close-up"
+        },
+        {
+          "value": "floralPair",
+          "label": "Floral pair on the street"
+        },
+        {
+          "value": "floralBack",
+          "label": "Floral back on the street"
+        },
+        {
+          "value": "floralChest",
+          "label": "Conviction logo close-up"
+        },
+        {
+          "value": "levee",
+          "label": "Floral front at dusk"
+        },
+        {
+          "value": "floralWater",
+          "label": "Floral back at the water"
+        },
+        {
+          "value": "floralRocks",
+          "label": "Floral back on the rocks"
+        },
+        {
+          "value": "jerseySolo",
+          "label": "Jersey, smiling on the street"
+        },
+        {
+          "value": "jerseyPair",
+          "label": "Jersey pair under trees"
+        },
+        {
+          "value": "jerseyPair2",
+          "label": "Jersey pair, standing and crouching"
+        },
+        {
+          "value": "jerseyBack",
+          "label": "Jersey back, Romans 8:6"
+        },
+        {
+          "value": "jerseyChest",
+          "label": "Jersey chest close-up"
+        },
+        {
+          "value": "jerseySky",
+          "label": "Jersey back, pink sky"
+        },
+        {
+          "value": "girls",
+          "label": "Two friends laughing in the jersey"
+        },
+        {
+          "value": "bench",
+          "label": "Jersey and John 16:8 on a bench"
+        }
+      ],
+      "default": "girls"
+    },
+    {
+      "type": "text",
+      "id": "focal",
+      "label": "Photo focus (across% down%)",
+      "default": "55% 12%"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Small line above heading",
+      "default": "Started at Baylor University"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Campus Ambassadors"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Apply to rep your campus"
+    },
+    {
+      "type": "text",
+      "id": "button_link",
+      "label": "Button link",
+      "default": "#apply"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Big photo header"
+    }
+  ]
+}
+{% endschema %}

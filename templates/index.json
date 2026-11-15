@@ -3,7 +3,7 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "focal": "object-position: center",
+        "focal": "object-position: 58% 50%",
         "height": "full",
         "overlay": 30,
         "kicker": "Bold designs, timeless truth",
@@ -11,6 +11,20 @@
         "button_label": "shop now",
         "button_link": "shopify://collections/all",
         "fallback": "sunset"
+      }
+    },
+    "who-we-are": {
+      "type": "image-with-text",
+      "settings": {
+        "layout": "left",
+        "full_bleed": true,
+        "kicker": "",
+        "heading": "Who We Are",
+        "heading_style": "display",
+        "text": "<p>We are used to seeing tag lines, slogans, and even bible verses on clothing everywhere today.  Those can all be good things.  Conviction is a brand where we want designs that make people think.  Make them pause, process, observe – make them ask questions or evoke emotion.  Our goal is ultimately to spread Christ’s message by initiating a response, an opportunity for a conversation.</p><p>True growth is not through religion, true growth happens in relationship.  Conviction aims to build on initiating responses that open the door for relationships.</p>",
+        "link_label": "read our story",
+        "link": "/pages/about",
+        "fallback": "trio"
       }
     },
     "pieces": {
@@ -23,18 +37,63 @@
         "link_label": "shop all"
       }
     },
-    "foundation": {
-      "type": "image-with-text",
+    "drop": {
+      "type": "drop-countdown",
       "settings": {
-        "layout": "left",
-        "full_bleed": true,
-        "kicker": "The foundation",
-        "heading": "More than belief",
-        "heading_style": "display",
-        "text": "<p>Rooted in the truth, so it shapes how you live.</p>",
-        "link_label": "read our story",
-        "link": "/pages/about",
-        "fallback": "floralPair"
+        "drop_at": "2026-12-20T19:00:00-06:00",
+        "kicker": "Next drop",
+        "heading": "Something new is coming",
+        "placeholder": "Email for first access",
+        "button": "Notify me",
+        "success": "You’re on the list. We’ll email you when it drops.",
+        "live_heading": "The drop is live",
+        "live_button": "Shop the drop"
+      }
+    },
+    "shop-the-look": {
+      "type": "shop-the-look",
+      "blocks": {
+        "look-1": {
+          "type": "look",
+          "settings": {
+            "fallback": "jerseyPair2",
+            "alt": "Standing and crouching in the Romans 8:6 jersey on a tree-lined street",
+            "product_1": "romans-86-jersey",
+            "x_1": 47,
+            "y_1": 31,
+            "product_2": "romans-86-jersey",
+            "x_2": 67,
+            "y_2": 73
+          }
+        },
+        "look-2": {
+          "type": "look",
+          "settings": {
+            "fallback": "bench",
+            "alt": "Two friends on a bench, one in the Romans 8:6 jersey, one in the John 16:8 tee",
+            "product_1": "romans-86-jersey",
+            "x_1": 45,
+            "y_1": 59,
+            "product_2": "conviction-greek-streetwear-t-shirt",
+            "x_2": 73,
+            "y_2": 61
+          }
+        },
+        "look-3": {
+          "type": "look",
+          "settings": {
+            "fallback": "trio2",
+            "alt": "Three friends against a blue sky, the middle one showing the floral back print",
+            "product_1": "lust-is-not-love-flowers-graphic-tee",
+            "x_1": 46,
+            "y_1": 62
+          }
+        }
+      },
+      "block_order": ["look-1", "look-2", "look-3"],
+      "settings": {
+        "heading": "Shop the look",
+        "in_look": "In this look:"
       }
     },
     "wear-it": {
@@ -44,52 +103,42 @@
           "type": "look",
           "settings": {
             "caption": "mesh panels, white piping",
-            "title": "Romans 8:6 Jersey",
-            "fallback": "jerseyPair"
+            "product": "romans-86-jersey",
+            "fallback": "jerseySky"
           }
         },
         "look-floral": {
           "type": "look",
           "settings": {
             "caption": "full floral back print",
-            "title": "Romans 8:5–6 Tee",
-            "fallback": "floralBack"
+            "product": "lust-is-not-love-flowers-graphic-tee",
+            "fallback": "floralRocks"
           }
         },
         "look-john": {
           "type": "look",
           "settings": {
             "caption": "to convince someone of the truth",
-            "title": "John 16:8 Tee",
-            "fallback": "johnPair"
+            "product": "conviction-greek-streetwear-t-shirt",
+            "fallback": "stoneTable"
           }
         }
       },
-      "block_order": [
-        "look-jersey",
-        "look-floral",
-        "look-john"
-      ],
+      "block_order": ["look-jersey", "look-floral", "look-john"],
       "settings": {
         "heading": "Wear it",
         "cta": "shop now"
       }
     },
-    "who-we-are": {
-      "type": "who-we-are",
+    "closing": {
+      "type": "film",
       "settings": {
-        "heading": "Who We Are",
-        "text": "<p>We are used to seeing tag lines, slogans, and even bible verses on clothing everywhere today. Those can all be good things. Conviction is a brand where we want designs that make people think. Make them pause, process, observe – make them ask questions or evoke emotion. Our goal us ultimately to spread Christ’s message by initiating a response, an opportunity for a conversation.</p><p>True growth is not through religion, true growth happens in relationship. Conviction aims to build on initiating responses that open the door for relationships.</p>",
-        "number": "01",
-        "ticker": "Wear your conviction | Bold designs, timeless truth"
+        "fallback": "floralWater",
+        "heading": "Made to be asked about",
+        "button_label": "About us",
+        "button_link": "/pages/about"
       }
     }
   },
-  "order": [
-    "hero",
-    "who-we-are",
-    "pieces",
-    "foundation",
-    "wear-it"
-  ]
+  "order": ["hero", "who-we-are", "pieces", "drop", "shop-the-look", "wear-it", "closing"]
 }

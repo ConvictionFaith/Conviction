@@ -1,0 +1,36 @@
+{%- comment -%}
+  One add-to-bag button per size, for the product's first available color.
+  Accepts: p (product), class (wrapper class)
+  Buttons use data-quick-add, handled in theme.js.
+{%- endcomment -%}
+{%- liquid
+  assign size_index = -1
+  for option in p.options_with_values
+    assign opt = option.name | downcase
+    if opt contains 'size'
+      assign size_index = forloop.index0
+    endif
+  endfor
+  assign base_variant = p.selected_or_first_available_variant
+-%}
+<div class="{{ class }}">
+  {%- if size_index < 0 -%}
+    <button type="button" data-quick-add="{{ base_variant.id }}" {% unless base_variant.available %}disabled{% endunless %}>{{ 'products.add_to_bag' | t }}</button>
+  {%- else -%}
+    {%- for variant in p.variants -%}
+      {%- liquid
+        assign same_other = true
+        for o in variant.options
+          if forloop.index0 != size_index and o != base_variant.options[forloop.index0]
+            assign same_other = false
+          endif
+        endfor
+      -%}
+      {%- if same_other -%}
+        {%- assign size_value = variant.options[size_index] -%}
+        <button type="button" data-quick-add="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}
+          aria-label="{{ 'products.add_size_to_bag' | t: size: size_value }}">{{ size_value }}</button>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+</div>

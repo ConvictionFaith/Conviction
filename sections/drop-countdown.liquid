@@ -1,0 +1,117 @@
+{%- liquid
+  assign drop_at = section.settings.drop_at | strip
+  assign now_s = 'now' | date: '%s' | plus: 0
+  assign drop_s = drop_at | date: '%s' | plus: 0
+  assign is_live = false
+  if drop_s > 0 and now_s >= drop_s
+    assign is_live = true
+  endif
+-%}
+<section class="drop{% if is_live %} is-live{% endif %}" data-drop data-drop-at="{{ drop_at | escape }}" aria-labelledby="drop-h-{{ section.id }}">
+  <div class="drop__head">
+    <p class="drop__kicker" data-drop-kicker{% if is_live %} hidden{% endif %}>
+      {{ section.settings.kicker }}{% if drop_s > 0 %} · {{ drop_at | date: '%A, %b %-d, %-I:%M %p' }}{% endif %}
+    </p>
+    <h2 class="display drop__h" id="drop-h-{{ section.id }}" data-drop-title
+      data-live="{{ section.settings.live_heading | escape }}">
+      {%- if is_live -%}{{ section.settings.live_heading }}{%- else -%}{{ section.settings.heading }}{%- endif -%}
+    </h2>
+  </div>
+
+  <div class="drop__clock" role="timer" aria-label="Time until the next drop" data-drop-clock>
+    {%- assign units = 'd:days,h:hrs,m:min,s:sec' | split: ',' -%}
+    {%- for u in units -%}
+      {%- assign parts = u | split: ':' -%}
+      {%- unless forloop.first -%}<span class="drop__sep" aria-hidden="true">:</span>{%- endunless -%}
+      <div class="drop__u"><span class="drop__n" data-u="{{ parts[0] }}">00</span><span class="drop__l">{{ parts[1] }}</span></div>
+    {%- endfor -%}
+  </div>
+
+  {%- form 'customer', class: 'drop__form', id: 'drop-form' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter,drop">
+    {%- if form.posted_successfully? -%}
+      <p class="form-note" role="status">{{ section.settings.success }}</p>
+    {%- else -%}
+      <div class="inline-form">
+        <label class="visually-hidden" for="drop-email-{{ section.id }}">{{ section.settings.placeholder }}</label>
+        <input class="field" id="drop-email-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" placeholder="{{ section.settings.placeholder | escape }}" required>
+        <button class="button button--light" type="submit">{{ section.settings.button }}</button>
+      </div>
+      {%- if form.errors -%}<p class="form-note" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    {%- endif -%}
+  {%- endform -%}
+
+  <a href="{{ section.settings.live_link | default: routes.all_products_collection_url }}" class="button button--light drop__live" data-drop-live{% unless is_live %} hidden{% endunless %}>{{ section.settings.live_button }}</a>
+</section>
+
+{% schema %}
+{
+  "name": "Drop countdown",
+  "class": "section-drop",
+  "settings": [
+    {
+      "type": "text",
+      "id": "drop_at",
+      "label": "Drop date and time",
+      "info": "Format: 2026-12-20T19:00:00-06:00 (the -06:00 is Central time). When it passes, the section switches to the live message by itself.",
+      "default": "2026-12-20T19:00:00-06:00"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Small line above heading",
+      "default": "Next drop"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading before the drop",
+      "default": "Something new is coming"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email field text",
+      "default": "Email for first access"
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Email button",
+      "default": "Notify me"
+    },
+    {
+      "type": "text",
+      "id": "success",
+      "label": "Thank-you message",
+      "default": "You’re on the list. We’ll email you when it drops."
+    },
+    {
+      "type": "header",
+      "content": "Once it's live"
+    },
+    {
+      "type": "text",
+      "id": "live_heading",
+      "label": "Heading",
+      "default": "The drop is live"
+    },
+    {
+      "type": "text",
+      "id": "live_button",
+      "label": "Button",
+      "default": "Shop the drop"
+    },
+    {
+      "type": "url",
+      "id": "live_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Drop countdown"
+    }
+  ]
+}
+{% endschema %}
