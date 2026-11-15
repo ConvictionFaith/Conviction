@@ -56,6 +56,12 @@
             "heading": "Returns",
             "content": "<p>Something not right? Email <a href=\"mailto:conviction.faith1@gmail.com\">conviction.faith1@gmail.com</a> with your order number and we'll sort it out.</p>"
           }
+        },
+        "fine_print": {
+          "type": "fine_print",
+          "settings": {
+            "text": "The people in our photos are wearing sample pieces. Color and fit may vary slightly."
+          }
         }
       },
       "block_order": [
@@ -67,7 +73,8 @@
         "description",
         "size",
         "shipping",
-        "returns"
+        "returns",
+        "fine_print"
       ],
       "settings": {}
     },

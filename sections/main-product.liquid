@@ -252,6 +252,9 @@
                 </details>
               {%- endif -%}
 
+            {%- when 'fine_print' -%}
+              <p class="product__fine" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+
           {%- endcase -%}
         {%- endfor -%}
       {%- endform -%}
@@ -335,6 +338,10 @@
         { "type": "text", "id": "heading", "label": "Heading", "default": "Size & fit" },
         { "type": "page", "id": "page", "label": "Fallback size chart page", "info": "Used when a product has no custom.size_chart metafield." }
       ]
+    },
+    {
+      "type": "fine_print", "name": "Small print", "limit": 1,
+      "settings": [ { "type": "textarea", "id": "text", "label": "Text", "default": "Photos show sample pieces worn by our friends. Color and fit may vary slightly." } ]
     },
     {
       "type": "fold", "name": "Collapsible text",

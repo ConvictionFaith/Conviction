@@ -900,3 +900,4 @@ body.has-grade main img, body.has-grade .bigmark__fill { filter: var(--grade); }
   .photo-strip > div + div { aspect-ratio: 4 / 5; }
 }
 @media (prefers-reduced-motion: reduce) { .spot::before { animation: none; } .flip__card { transition: none; } }
+.product__fine { font-size: 11.5px; line-height: 1.5; color: var(--mute); margin-top: 4px; }
