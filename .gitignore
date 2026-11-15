@@ -1,0 +1,10 @@
+# Never commit secrets or local tooling
+.env
+.env.*
+*.pem
+*.key
+.shopify/
+node_modules/
+.DS_Store
+Thumbs.db
+*.log

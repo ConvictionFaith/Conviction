@@ -16,7 +16,7 @@
     {%- endunless -%}
     {%- for p in item.properties -%}
       {%- unless p.last == blank or p.first contains '_' -%}
-        <p class="line__variant">{{ p.first }}: {{ p.last }}</p>
+        <p class="line__variant">{{ p.first | escape }}: {{ p.last | escape }}</p>
       {%- endunless -%}
     {%- endfor -%}
     <div class="line__row">

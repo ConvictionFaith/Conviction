@@ -455,7 +455,7 @@
     if (el.dataset.splitDone) return;
     const words = el.textContent.trim().split(/\s+/);
     el.setAttribute('aria-label', words.join(' '));
-    el.innerHTML = words.map((w, i) => `<span class="w" aria-hidden="true"><span style="--i:${i}">${w.replace(/</g, '&lt;')}</span></span>`).join(' ');
+    el.innerHTML = words.map((w, i) => `<span class="w" aria-hidden="true"><span style="--i:${i}">${w.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span></span>`).join(' ');
     el.classList.add('split');
     el.dataset.splitDone = '1';
   }

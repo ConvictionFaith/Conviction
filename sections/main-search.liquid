@@ -1,6 +1,7 @@
+{%- assign safe_terms = search.terms | escape -%}
 <section class="block-pad search-page">
   <div class="row-head row-head--page">
-    <h1 class="row-head__title">{% if search.performed %}{{ 'search.results_for' | t: terms: search.terms }}{% else %}{{ 'search.title' | t }}{% endif %}</h1>
+    <h1 class="row-head__title">{% if search.performed %}{{ 'search.results_for' | t: terms: safe_terms }}{% else %}{{ 'search.title' | t }}{% endif %}</h1>
   </div>
   <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
     <label for="Search" class="visually-hidden">{{ 'general.search' | t }}</label>
@@ -18,7 +19,7 @@
             <li class="search-page__other"><a href="{{ item.url }}">{{ item.title }}</a></li>
           {%- endif -%}
         {%- else -%}
-          <li class="empty">{{ 'search.no_results' | t: terms: search.terms }}</li>
+          <li class="empty">{{ 'search.no_results' | t: terms: safe_terms }}</li>
         {%- endfor -%}
       </ul>
       {% render 'pagination', paginate: paginate %}
