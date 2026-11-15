@@ -225,19 +225,43 @@
   }
 
   /* ---------- Shop the look ---------- */
+  /* Look tabs: switch instantly, with every look photo already loaded */
+  function showLook(tab) {
+    const sec = tab.closest('[data-stl-section]');
+    if (!sec) return;
+    closePops();
+    const want = tab.dataset.lookTab;
+    $$('[data-look-tab]', sec).forEach((b) => { const on = b === tab; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
+    $$('[data-stl]', sec).forEach((n) => {
+      const on = n.dataset.stl === want;
+      n.hidden = !on;
+      if (on) $$('img', n).forEach((img) => { img.loading = 'eager'; });
+    });
+  }
+  function initLooks(root = document) {
+    $$('[data-stl-section]', root).forEach((sec) => {
+      const warm = () => $$('[data-stl] img', sec).forEach((img) => { img.loading = 'eager'; if (img.decode) img.decode().catch(() => {}); });
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((es) => { if (es.some((x) => x.isIntersecting)) { warm(); io.disconnect(); } }, { rootMargin: '600px 0px' });
+        io.observe(sec);
+      } else warm();
+      sec.addEventListener('keydown', (e) => {
+        const tab = e.target.closest('[data-look-tab]');
+        if (!tab || (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft')) return;
+        const tabs = $$('[data-look-tab]', sec);
+        const i = (tabs.indexOf(tab) + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+        tabs[i].focus(); showLook(tabs[i]);
+      });
+    });
+  }
+
   function closePops(except) {
     $$('[data-pop]').forEach((p) => { if (p !== except) p.hidden = true; });
     $$('[data-spot][aria-expanded="true"]').forEach((b) => { if (b.nextElementSibling !== except) b.setAttribute('aria-expanded', 'false'); });
   }
   document.addEventListener('click', (e) => {
     const tab = e.target.closest('[data-look-tab]');
-    if (tab) {
-      const sec = tab.closest('[data-stl-section]');
-      closePops();
-      $$('[data-look-tab]', sec).forEach((b) => b.setAttribute('aria-selected', String(b === tab)));
-      $$('[data-stl]', sec).forEach((n) => { n.hidden = n.dataset.stl !== tab.dataset.lookTab; });
-      return;
-    }
+    if (tab) { e.preventDefault(); showLook(tab); return; }
     const spot = e.target.closest('[data-spot]');
     if (spot) {
       const pop = spot.nextElementSibling;
@@ -392,6 +416,8 @@
     /* Gallery counter on phones */
     const track = $('[data-gallery-track]', section);
     const current = $('[data-gallery-current]', section);
+    const total = $('[data-gallery-total]', section);
+    if (track && total) total.textContent = String(track.children.length);
     if (track && current) {
       track.addEventListener('scroll', () => {
         const i = Math.round(track.scrollLeft / track.clientWidth);
@@ -526,6 +552,7 @@
     initFilm();
     initDrop();
     initNotify();
+    initLooks();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
@@ -540,5 +567,6 @@
     initRecommendations();
     initFilm();
     initDrop(e.target);
+    initLooks(e.target);
   });
 })();

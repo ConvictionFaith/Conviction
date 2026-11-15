@@ -46,7 +46,9 @@
     {%- if pick -%}
       <div class="nudge">
         <a href="{{ pick.url }}" class="nudge__img">
-          {%- if pick.featured_media -%}{{ pick.featured_media | image_url: width: 160 | image_tag: class: 'cv-fill', loading: 'lazy', alt: '' }}{%- endif -%}
+          {%- capture pick_look -%}{% render 'cv-look', handle: pick.handle, part: 'has' %}{%- endcapture -%}
+          {%- if pick_look contains 'yes' -%}{% render 'cv-look', handle: pick.handle, part: 'front', class: 'cv-fill' %}
+          {%- elsif pick.featured_media -%}{{ pick.featured_media | image_url: width: 160 | image_tag: class: 'cv-fill', loading: 'lazy', alt: '' }}{%- endif -%}
         </a>
         <p>Add the <a href="{{ pick.url }}" class="text-link">{{ pick.metafields.custom.short_title.value | default: pick.title }}</a> ({{ pick.price | money }}) and shipping is free.</p>
         {% render 'size-buttons', p: pick, class: 'nudge__sizes' %}

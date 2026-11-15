@@ -33,8 +33,17 @@
   endif
 -%}
 <div class="card{% unless p.available %} card--sold{% endunless %}" data-product-card>
-  <a href="{{ p.url }}" class="card__media{% if secondary %} card__media--swap{% endif %}" tabindex="-1" aria-hidden="true">
-    {%- if p.featured_media -%}
+  {%- capture has_look -%}{% render 'cv-look', handle: p.handle, part: 'has' %}{%- endcapture -%}
+  {%- if p.metafields.custom.card_image != blank -%}{%- assign has_look = 'own' -%}{%- endif -%}
+  <a href="{{ p.url }}" class="card__media card__media--swap" tabindex="-1" aria-hidden="true">
+    {%- if has_look == 'own' -%}
+      {{ p.metafields.custom.card_image.value | image_url: width: 1400 | image_tag: class: 'card__img', widths: '360,540,720,960,1200,1400', sizes: img_sizes, loading: loading }}
+      {%- assign hover = p.metafields.custom.card_image_hover.value | default: p.featured_media -%}
+      {%- if hover -%}{{ hover | image_url: width: 1400 | image_tag: class: 'card__img card__img--alt', widths: '360,540,720,960,1200,1400', sizes: img_sizes, loading: 'lazy', alt: '' }}{%- endif -%}
+    {%- elsif has_look contains 'yes' -%}
+      {% render 'cv-look', handle: p.handle, part: 'front', class: 'card__img', eager: eager %}
+      {% render 'cv-look', handle: p.handle, part: 'back', class: 'card__img card__img--alt' %}
+    {%- elsif p.featured_media -%}
       {{ p.featured_media | image_url: width: 1400 | image_tag:
           class: 'card__img',
           widths: '360,540,720,960,1200,1400',

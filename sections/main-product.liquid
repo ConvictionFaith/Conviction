@@ -7,8 +7,14 @@
   assign flip_front = product.metafields.custom.flip_front.value
   assign flip_back = product.metafields.custom.flip_back.value
   assign flip_skip = 0
-  if section.settings.flip
-    if flip_front == blank and product.media.size >= 2
+-%}
+{%- capture has_look -%}{% render 'cv-look', handle: product.handle, part: 'has' %}{%- endcapture -%}
+{%- liquid
+  assign builtin_flip = false
+  if section.settings.flip and flip_front == blank
+    if has_look contains 'yes'
+      assign builtin_flip = true
+    elsif product.media.size >= 2
       assign flip_front = product.media[0]
       assign flip_back = product.media[1]
       assign flip_skip = 2
@@ -17,9 +23,10 @@
   assign flip_front_alt = flip_front.alt | default: 'Front'
   assign flip_back_alt = flip_back.alt | default: 'Back'
   assign has_flip = false
-  if section.settings.flip and flip_front != blank and flip_back != blank
-    assign has_flip = true
-    assign media_count = media_count | minus: flip_skip | plus: 1
+  if section.settings.flip
+    if builtin_flip or flip_front != blank and flip_back != blank
+      assign has_flip = true
+    endif
   endif
 -%}
 <section class="product" data-product-section data-section="{{ section.id }}">
@@ -38,10 +45,12 @@
           <li class="product__media flip{% if section.settings.flip_start == 'back' %} is-back{% endif %}" data-flip>
             <div class="flip__card">
               <div class="flip__face flip__front">
-                {{ flip_front | image_url: width: 2000 | image_tag: widths: '600,900,1200,1600,2000', sizes: '(min-width: 990px) 66vw, 100vw', loading: 'eager', fetchpriority: 'high', class: 'product__img', alt: flip_front_alt }}
+                {%- if builtin_flip -%}{% render 'cv-look', handle: product.handle, part: 'flip_front', class: 'product__img', eager: true %}{%- else -%}
+                {{ flip_front | image_url: width: 2000 | image_tag: widths: '600,900,1200,1600,2000', sizes: '(min-width: 990px) 66vw, 100vw', loading: 'eager', fetchpriority: 'high', class: 'product__img', alt: flip_front_alt }}{%- endif -%}
               </div>
               <div class="flip__face flip__back">
-                {{ flip_back | image_url: width: 2000 | image_tag: widths: '600,900,1200,1600,2000', sizes: '(min-width: 990px) 66vw, 100vw', loading: 'eager', class: 'product__img', alt: flip_back_alt }}
+                {%- if builtin_flip -%}{% render 'cv-look', handle: product.handle, part: 'flip_back', class: 'product__img', eager: true %}{%- else -%}
+                {{ flip_back | image_url: width: 2000 | image_tag: widths: '600,900,1200,1600,2000', sizes: '(min-width: 990px) 66vw, 100vw', loading: 'eager', class: 'product__img', alt: flip_back_alt }}{%- endif -%}
               </div>
             </div>
             <div class="flip__ctl" role="group" aria-label="Show print">
@@ -71,10 +80,11 @@
         {%- else -%}
           {%- unless has_flip -%}<li class="product__media">{{ 'product-apparel-1' | placeholder_svg_tag: 'product__img card__placeholder' }}</li>{%- endunless -%}
         {%- endfor -%}
+        {%- if section.settings.people_photos -%}
+          {% render 'cv-look', handle: product.handle, part: 'gallery', class: 'product__img', li_class: 'product__media' %}
+        {%- endif -%}
       </ul>
-      {%- if media_count > 1 -%}
-        <p class="product__counter" aria-live="polite"><span data-gallery-current>1</span> / {{ media_count }}</p>
-      {%- endif -%}
+      <p class="product__counter" aria-live="polite"><span data-gallery-current>1</span> / <span data-gallery-total>{{ media_count }}</span></p>
     </div>
 
     <div class="product__info">
@@ -273,6 +283,7 @@
   "class": "section-product",
   "settings": [
     { "type": "checkbox", "id": "flip", "label": "Front/back flip as the first photo", "info": "Uses the product metafields custom.flip_front and custom.flip_back (images). Without them, the product's first two photos.", "default": true },
+    { "type": "checkbox", "id": "people_photos", "label": "Add the built-in people photos after the product photos", "info": "For the three launch products. Turn off once you upload your own.", "default": true },
     { "type": "select", "id": "flip_start", "label": "Flip starts on", "options": [ { "value": "back", "label": "Back" }, { "value": "front", "label": "Front" } ], "default": "back" }
   ],
   "blocks": [

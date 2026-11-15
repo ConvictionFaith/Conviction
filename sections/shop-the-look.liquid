@@ -37,7 +37,9 @@
               aria-label="{{ sp_title | escape }}, {{ sp.price | money }}"><span></span></button>
             <div class="pop" hidden data-pop>
               <a href="{{ sp.url }}" class="pop__img">
-                {%- if sp.featured_media -%}{{ sp.featured_media | image_url: width: 200 | image_tag: class: 'cv-fill', loading: 'lazy', alt: '' }}{%- endif -%}
+                {%- capture sp_look -%}{% render 'cv-look', handle: sp.handle, part: 'has' %}{%- endcapture -%}
+                {%- if sp_look contains 'yes' -%}{% render 'cv-look', handle: sp.handle, part: 'back', class: 'cv-fill' %}
+                {%- elsif sp.featured_media -%}{{ sp.featured_media | image_url: width: 200 | image_tag: class: 'cv-fill', loading: 'lazy', alt: '' }}{%- endif -%}
               </a>
               <div>
                 <a href="{{ sp.url }}" class="pop__name">{{ sp_title }}</a>
