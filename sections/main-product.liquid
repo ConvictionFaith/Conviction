@@ -45,11 +45,11 @@
           <li class="product__media flip{% if section.settings.flip_start == 'back' %} is-back{% endif %}" data-flip>
             <div class="flip__card">
               <div class="flip__face flip__front">
-                {%- if builtin_flip -%}{% render 'cv-look', handle: product.handle, part: 'flip_front', class: 'product__img', eager: true %}{%- else -%}
+                {%- if builtin_flip -%}{% render 'cv-look', handle: product.handle, part: 'flip_front', class: 'product__img', eager: true, sizes: '(min-width: 990px) 66vw, 100vw' %}{%- else -%}
                 {{ flip_front | image_url: width: 2000 | image_tag: widths: '600,900,1200,1600,2000', sizes: '(min-width: 990px) 66vw, 100vw', loading: 'eager', fetchpriority: 'high', class: 'product__img', alt: flip_front_alt }}{%- endif -%}
               </div>
               <div class="flip__face flip__back">
-                {%- if builtin_flip -%}{% render 'cv-look', handle: product.handle, part: 'flip_back', class: 'product__img', eager: true %}{%- else -%}
+                {%- if builtin_flip -%}{% render 'cv-look', handle: product.handle, part: 'flip_back', class: 'product__img', eager: true, sizes: '(min-width: 990px) 66vw, 100vw' %}{%- else -%}
                 {{ flip_back | image_url: width: 2000 | image_tag: widths: '600,900,1200,1600,2000', sizes: '(min-width: 990px) 66vw, 100vw', loading: 'eager', class: 'product__img', alt: flip_back_alt }}{%- endif -%}
               </div>
             </div>

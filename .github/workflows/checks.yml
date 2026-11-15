@@ -1,0 +1,46 @@
+# Runs on every change. Catches broken theme code and leaked secrets
+# before they can reach the live store.
+name: Theme checks
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  theme-check:
+    name: Shopify theme check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Shopify CLI
+        run: npm install -g @shopify/cli@3
+      - name: Check theme (fails on errors only)
+        run: shopify theme check --fail-level error
+
+  json-and-liquid:
+    name: JSON and Liquid sanity
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON files and Liquid tag balance
+        run: python3 .github/scripts/sanity.py
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Look for keys, tokens and passwords
+        run: python3 .github/scripts/secrets.py

@@ -17,7 +17,7 @@
       <div class="cart-page__summary">
         {%- if settings.cart_notes -%}
           <label for="CartNote" class="field__label">{{ 'cart.note' | t }}</label>
-          <textarea id="CartNote" name="note" class="field" rows="3">{{ cart.note }}</textarea>
+          <textarea id="CartNote" name="note" class="field" rows="3">{{ cart.note | escape }}</textarea>
         {%- endif -%}
         <p class="drawer__total"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></p>
         <p class="drawer__fine">{{ 'cart.taxes_shipping' | t }}</p>

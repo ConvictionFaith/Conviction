@@ -38,7 +38,7 @@
             <div class="pop" hidden data-pop>
               <a href="{{ sp.url }}" class="pop__img">
                 {%- capture sp_look -%}{% render 'cv-look', handle: sp.handle, part: 'has' %}{%- endcapture -%}
-                {%- if sp_look contains 'yes' -%}{% render 'cv-look', handle: sp.handle, part: 'back', class: 'cv-fill' %}
+                {%- if sp_look contains 'yes' -%}{% render 'cv-look', handle: sp.handle, part: 'back', class: 'cv-fill', sizes: '80px' %}
                 {%- elsif sp.featured_media -%}{{ sp.featured_media | image_url: width: 200 | image_tag: class: 'cv-fill', loading: 'lazy', alt: '' }}{%- endif -%}
               </a>
               <div>

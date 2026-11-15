@@ -16,7 +16,7 @@
           {%- if item.object_type == 'product' -%}
             <li>{% render 'product-card', card_product: item, quick_add: true %}</li>
           {%- else -%}
-            <li class="search-page__other"><a href="{{ item.url }}">{{ item.title }}</a></li>
+            <li class="search-page__other"><a href="{{ item.url }}">{{ item.title | escape }}</a></li>
           {%- endif -%}
         {%- else -%}
           <li class="empty">{{ 'search.no_results' | t: terms: safe_terms }}</li>

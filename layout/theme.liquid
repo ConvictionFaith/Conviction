@@ -5,6 +5,7 @@
     <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="theme-color" content="{% if settings.color_mode == 'cream' %}#EFE8D8{% else %}#FFFFFF{% endif %}">
     <link rel="canonical" href="{{ canonical_url }}">
     {%- if settings.favicon != blank -%}
@@ -12,10 +13,10 @@
     {%- endif -%}
 
     <title>
-      {{ page_title }}
-      {%- if current_tags %} – {{ current_tags | join: ', ' }}{% endif -%}
+      {{ page_title | escape }}
+      {%- if current_tags %} – {{ current_tags | join: ', ' | escape }}{% endif -%}
       {%- if current_page != 1 %} – page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} · {{ shop.name }}{% endunless -%}
+      {%- unless page_title contains shop.name %} · {{ shop.name | escape }}{% endunless -%}
     </title>
     {%- if page_description -%}
       <meta name="description" content="{{ page_description | escape }}">
@@ -29,6 +30,7 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       {%- if settings.display_style == 'condensed' -%}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap" media="print" onload="this.media='all'">
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap"></noscript>
       {%- else -%}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" media="print" onload="this.media='all'">
       {%- endif -%}
