@@ -14,7 +14,7 @@
         "type": "select",
         "id": "color_mode",
         "label": "Color mode",
-        "info": "Seasonal look. White uses the colors below; Cream and Dark override them.",
+        "info": "White uses the colors below; Cream overrides them.",
         "options": [
           {
             "value": "white",
@@ -23,10 +23,6 @@
           {
             "value": "cream",
             "label": "Cream"
-          },
-          {
-            "value": "dark",
-            "label": "Dark"
           }
         ],
         "default": "white"

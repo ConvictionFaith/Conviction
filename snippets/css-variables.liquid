@@ -32,16 +32,9 @@
     {%- endcase %}
     --page-width: {{ settings.page_width }}px;
   }
+  {%- comment -%} Light theme is locked in. Only Cream is offered as an alternative. {%- endcomment -%}
   {%- if settings.color_mode == 'cream' %}
   :root { --paper: #EFE8D8; --ink: #141210; --stone: #E2D9C6; --mute: #6A6357; --rule: #D2C8B4; }
-  {%- elsif settings.color_mode == 'dark' %}
-  :root { --paper: #000000; --ink: #F4F4F2; --stone: #1C1C1B; --mute: #9A9A98; --rule: #2E2E2D; color-scheme: dark; }
-  .drop, .statement, .support { background: #141414; color: #F4F4F2; }
-  :is(.drop, .support) .button--light { background: #F4F4F2; color: #000; border-color: #F4F4F2; }
-  :is(.drop, .support) .button--light::before { background: #000; }
-  :is(.drop, .support) .button--light:hover { color: #F4F4F2; }
-  .drop__form .field { color: #F4F4F2; border-color: rgba(244,244,242,.45); }
-  .drop__form .field::placeholder { color: rgba(244,244,242,.6); }
-  .announcement { background: #141414; color: #F4F4F2; border-bottom: 1px solid #2E2E2D; }
   {%- endif %}
+  :root { color-scheme: light; }
 </style>

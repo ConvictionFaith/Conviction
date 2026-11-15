@@ -5,7 +5,7 @@
     <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="{% case settings.color_mode %}{% when 'dark' %}#000000{% when 'cream' %}#EFE8D8{% else %}{{ settings.color_paper }}{% endcase %}">
+    <meta name="theme-color" content="{% if settings.color_mode == 'cream' %}#EFE8D8{% else %}#FFFFFF{% endif %}">
     <link rel="canonical" href="{{ canonical_url }}">
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
