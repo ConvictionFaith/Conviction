@@ -39,10 +39,13 @@
     {%- if has_look == 'own' -%}
       {{ p.metafields.custom.card_image.value | image_url: width: 1400 | image_tag: class: 'card__img', widths: '360,540,720,960,1200,1400', sizes: img_sizes, loading: loading }}
       {%- assign hover = p.metafields.custom.card_image_hover.value | default: p.featured_media -%}
-      {%- if hover -%}{{ hover | image_url: width: 1400 | image_tag: class: 'card__img card__img--alt', widths: '360,540,720,960,1200,1400', sizes: img_sizes, loading: 'lazy', alt: '' }}{%- endif -%}
+      {%- if hover -%}
+        {%- capture alt_img -%}{{ hover | image_url: width: 1400 | image_tag: class: 'card__img card__img--alt', widths: '360,540,720,960,1200,1400', sizes: img_sizes, alt: '' }}{%- endcapture -%}
+        {{ alt_img | replace: ' srcset="', ' data-srcset="' | replace: ' src="', ' data-defer-img data-src="' }}
+      {%- endif -%}
     {%- elsif has_look contains 'yes' -%}
       {% render 'cv-look', handle: p.handle, part: 'front', class: 'card__img', eager: eager %}
-      {% render 'cv-look', handle: p.handle, part: 'back', class: 'card__img card__img--alt' %}
+      {% render 'cv-look', handle: p.handle, part: 'back', class: 'card__img card__img--alt', defer: true %}
     {%- elsif p.featured_media -%}
       {{ p.featured_media | image_url: width: 1400 | image_tag:
           class: 'card__img',
@@ -51,12 +54,8 @@
           loading: loading,
           alt: p.featured_media.alt }}
       {%- if secondary -%}
-        {{ secondary | image_url: width: 1400 | image_tag:
-            class: 'card__img card__img--alt',
-            widths: '360,540,720,960,1200,1400',
-            sizes: img_sizes,
-            loading: 'lazy',
-            alt: '' }}
+        {%- capture alt_img -%}{{ secondary | image_url: width: 1400 | image_tag: class: 'card__img card__img--alt', widths: '360,540,720,960,1200,1400', sizes: img_sizes, alt: '' }}{%- endcapture -%}
+        {{ alt_img | replace: ' srcset="', ' data-srcset="' | replace: ' src="', ' data-defer-img data-src="' }}
       {%- endif -%}
     {%- else -%}
       {{ 'product-apparel-1' | placeholder_svg_tag: 'card__img card__placeholder' }}

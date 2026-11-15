@@ -4,7 +4,7 @@
   <a href="{{ item.url }}" class="line__media">
     {%- capture line_look -%}{% render 'cv-look', handle: item.product.handle, part: 'has' %}{%- endcapture -%}
     {%- if line_look contains 'yes' -%}
-      {% render 'cv-look', handle: item.product.handle, part: 'flat_front', class: '' %}
+      {% render 'cv-look', handle: item.product.handle, part: 'flat_front', class: '', sizes: '100px' %}
     {%- elsif item.image -%}
       {{ item.image | image_url: width: 300 | image_tag: widths: '150,300', sizes: '96px', loading: 'lazy', alt: item.image.alt }}
     {%- endif -%}

@@ -1,6 +1,8 @@
 {%- comment -%}
-  Built-in Conviction photo, used when a section has no image chosen.
-  Accepts: key, class, alt, sizes, eager (boolean), style
+  Built-in Conviction photo. Color grade is baked into the files.
+  Accepts: key, class, alt, style, eager (boolean),
+           sizes (optional; guessed from class), defer (boolean: load on hover only)
+  Smaller copies exist at 400/700/1000/1400px wide (only below the original width).
 {%- endcomment -%}
 {%- liquid
   assign w = 1600
@@ -86,8 +88,43 @@
     assign w = 1200
     assign h = 1500
   endif
-  assign src = 'cv-' | append: key | append: '.webp' | asset_url
+
+  assign base = 'cv-' | append: key
+  assign src = base | append: '.webp' | asset_url
+  assign srcset = ''
+  assign steps = '400,700,1000,1400' | split: ','
+  for step in steps
+    assign sw = step | plus: 0
+    if sw < w
+      assign f = base | append: '-w' | append: step | append: '.webp' | asset_url
+      assign srcset = srcset | append: f | append: ' ' | append: step | append: 'w, '
+    endif
+  endfor
+  assign srcset = srcset | append: src | append: ' ' | append: w | append: 'w'
+
+  assign cls = class | default: ''
+  assign s = sizes
+  if s == blank
+    if cls contains 'card__img'
+      assign s = '(min-width: 990px) 33vw, (min-width: 480px) 50vw, 100vw'
+    elsif cls contains 'iwt__img'
+      assign s = '(min-width: 750px) 50vw, 100vw'
+    elsif cls contains 'look__img'
+      assign s = '(min-width: 750px) 33vw, 78vw'
+    elsif cls contains 'product__img'
+      assign s = '(min-width: 990px) 50vw, 100vw'
+    elsif cls == ''
+      assign s = '120px'
+    else
+      assign s = '100vw'
+    endif
+  endif
 -%}
-<img src="{{ src }}" class="{{ class }}" alt="{{ alt | escape }}" width="{{ w }}" height="{{ h }}"
+{%- if defer -%}
+<img data-src="{{ src }}" data-srcset="{{ srcset }}" sizes="{{ s }}" class="{{ cls }}" alt="" aria-hidden="true" width="{{ w }}" height="{{ h }}" decoding="async"
+  {%- if style %} style="{{ style }}"{% endif %} data-defer-img>
+{%- else -%}
+<img src="{{ src }}" srcset="{{ srcset }}" sizes="{{ s }}" class="{{ cls }}" alt="{{ alt | escape }}" width="{{ w }}" height="{{ h }}"
   {%- if style %} style="{{ style }}"{% endif %}
   {%- if eager %} loading="eager" fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async">
+{%- endif -%}

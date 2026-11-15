@@ -18,6 +18,27 @@
     $$(FADE_SEL, root).forEach((img) => { if (img.complete && img.naturalWidth) img.classList.add('is-loaded'); });
   }
 
+
+  /* ---------- Hover photos: only fetched on screens that can hover ---------- */
+  const CAN_HOVER = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function loadDeferred(img) {
+    if (!img || !img.dataset.src) return;
+    if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+    img.src = img.dataset.src;
+    delete img.dataset.src; delete img.dataset.srcset;
+  }
+  function initDeferred(root = document) {
+    if (!CAN_HOVER) return;
+    const all = () => $$('img[data-defer-img][data-src]', root).forEach(loadDeferred);
+    if ('requestIdleCallback' in window) requestIdleCallback(all, { timeout: 3000 }); else setTimeout(all, 1500);
+  }
+  if (CAN_HOVER) {
+    document.addEventListener('pointerover', (e) => {
+      const card = e.target.closest && e.target.closest('.card');
+      if (card) $$('img[data-defer-img][data-src]', card).forEach(loadDeferred);
+    }, { passive: true });
+  }
+
   /* ---------- Bag drawer ---------- */
   const Bag = {
     get el() { return $('[data-cart-drawer]'); },
@@ -424,7 +445,7 @@
         const html = await res.text();
         const doc = new DOMParser().parseFromString(html, 'text/html');
         const fresh = doc.querySelector('[data-recommendations]');
-        if (fresh && fresh.innerHTML.trim()) { el.innerHTML = fresh.innerHTML; initMotion(el); }
+        if (fresh && fresh.innerHTML.trim()) { el.innerHTML = fresh.innerHTML; initMotion(el); initDeferred(el); sweepImages(el); }
       } catch (e) { /* section stays empty */ }
     });
   }
@@ -542,6 +563,7 @@
     initDrop();
     initNotify();
     initLooks();
+    if (document.readyState === 'complete') initDeferred(); else window.addEventListener('load', () => initDeferred(), { once: true });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
@@ -557,5 +579,6 @@
     initFilm();
     initDrop(e.target);
     initLooks(e.target);
+    initDeferred(e.target);
   });
 })();
