@@ -15,7 +15,7 @@
               endif
             -%}
             <li {{ block.shopify_attributes }}>
-              <a href="{{ block.settings.url }}"{% if here %} aria-current="page"{% endif %}>{{ block.settings.label }}</a>
+              <a href="{{ block.settings.url | escape }}"{% if here %} aria-current="page"{% endif %}>{{ block.settings.label | escape }}</a>
             </li>
           {%- endfor -%}
         {%- else -%}
