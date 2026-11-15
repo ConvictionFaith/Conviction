@@ -14,7 +14,6 @@ Create two pages in Online Store → Pages and pick their template (right-hand p
 |---|---|---|
 | About | `page.about` | `about` |
 | Help | `page.help` | `help` |
-| Ambassadors | `page.ambassadors` | `ambassadors` |
 
 The About and Help text from the current site is already filled in on those templates; edit it in the theme editor. The page's own content box can stay empty.
 
@@ -127,4 +126,3 @@ Old product URLs were `/shop/<handle>`; Shopify's are `/products/<handle>`. Add 
 - **Free-shipping nudge**: the bag suggests the cheapest piece that gets the order over the threshold (Theme settings → Cart).
 - **Color mode**: Theme settings → Colors → Color mode (White, Cream, Dark).
 - **Photo grade**: Theme settings → Colors → Subtle color grade on photos.
-- **Ambassador codes**: create each code in Discounts. Shoppers can type it on the Ambassadors page, or use the link `conviction.faith/discount/CODE`. Applications arrive by email, tagged `ambassador-application`.

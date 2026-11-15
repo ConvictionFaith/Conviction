@@ -290,17 +290,6 @@
   }
 
 
-  /* Ambassador code: Shopify's /discount/CODE link applies it at checkout */
-  document.addEventListener('submit', (e) => {
-    const f = e.target.closest('[data-code-form]');
-    if (!f) return;
-    e.preventDefault();
-    const code = f.code.value.trim();
-    const err = f.parentElement.querySelector('[data-code-error]');
-    if (!code) { if (err) err.hidden = false; f.code.focus(); return; }
-    window.location.href = `/discount/${encodeURIComponent(code.toUpperCase())}?redirect=${encodeURIComponent(f.dataset.redirect || '/collections/all')}`;
-  });
-
   /* ---------- Product page ---------- */
   function initProduct(section) {
     const form = $('.product__form', section);

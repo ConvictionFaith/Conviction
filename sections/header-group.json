@@ -49,20 +49,12 @@
             "label": "About us",
             "url": "/pages/about"
           }
-        },
-        "ambassadors": {
-          "type": "link",
-          "settings": {
-            "label": "Ambassadors",
-            "url": "/pages/ambassadors"
-          }
         }
       },
       "block_order": [
         "home",
         "shop",
-        "about",
-        "ambassadors"
+        "about"
       ]
     }
   },
