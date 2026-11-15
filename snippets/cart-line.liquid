@@ -2,7 +2,10 @@
 {%- assign item_title = item.product.metafields.custom.short_title.value | default: item.product.title -%}
 <li class="line" data-line="{{ index }}" style="--i: {{ index | minus: 1 }}">
   <a href="{{ item.url }}" class="line__media">
-    {%- if item.image -%}
+    {%- capture line_look -%}{% render 'cv-look', handle: item.product.handle, part: 'has' %}{%- endcapture -%}
+    {%- if line_look contains 'yes' -%}
+      {% render 'cv-look', handle: item.product.handle, part: 'flat_front', class: '' %}
+    {%- elsif item.image -%}
       {{ item.image | image_url: width: 300 | image_tag: widths: '150,300', sizes: '96px', loading: 'lazy', alt: item.image.alt }}
     {%- endif -%}
   </a>

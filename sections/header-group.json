@@ -18,8 +18,47 @@
         "sticky": true,
         "show_search": false,
         "show_account": false
-      }
+      },
+      "blocks": {
+        "home": {
+          "type": "link",
+          "settings": {
+            "label": "Home",
+            "url": "/"
+          }
+        },
+        "shop": {
+          "type": "link",
+          "settings": {
+            "label": "Shop",
+            "url": "/collections/all"
+          }
+        },
+        "about": {
+          "type": "link",
+          "settings": {
+            "label": "About us",
+            "url": "/pages/about"
+          }
+        },
+        "ambassadors": {
+          "type": "link",
+          "settings": {
+            "label": "Ambassadors",
+            "url": "/pages/ambassadors"
+          }
+        }
+      },
+      "block_order": [
+        "home",
+        "shop",
+        "about",
+        "ambassadors"
+      ]
     }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }

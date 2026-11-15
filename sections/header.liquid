@@ -2,11 +2,29 @@
   <div class="header__inner">
     <nav class="header__nav" aria-label="Main">
       <ul class="header__menu" role="list">
-        {%- for link in section.settings.menu.links -%}
-          <li>
-            <a href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a>
-          </li>
-        {%- endfor -%}
+        {%- if section.blocks.size > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign here = false
+              if block.settings.url == request.path
+                assign here = true
+              elsif block.settings.url == '/' and request.page_type == 'index'
+                assign here = true
+              elsif block.settings.url != '/' and request.path contains block.settings.url
+                assign here = true
+              endif
+            -%}
+            <li {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.url }}"{% if here %} aria-current="page"{% endif %}>{{ block.settings.label }}</a>
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              <a href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
       </ul>
     </nav>
 
@@ -51,10 +69,21 @@
   "settings": [
     { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Optional. Leave empty to use the cut-out CONVICTION letters, which follow your text color. Upload an image only to replace them." },
     { "type": "range", "id": "logo_width", "label": "Logo width", "min": 60, "max": 260, "step": 5, "unit": "px", "default": 150 },
-    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Used only when no links are added below." },
     { "type": "checkbox", "id": "sticky", "label": "Keep header visible while scrolling", "default": true },
     { "type": "checkbox", "id": "show_search", "label": "Show search link", "default": false },
     { "type": "checkbox", "id": "show_account", "label": "Show account link", "default": false }
+  ],
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Menu link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Shop" },
+        { "type": "text", "id": "url", "label": "Link", "info": "For example /collections/all or /pages/about", "default": "/collections/all" }
+      ]
+    }
   ]
 }
 {% endschema %}

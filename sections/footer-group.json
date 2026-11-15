@@ -5,12 +5,41 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "footer", "extra_text": "" } },
-        "help": { "type": "menu", "settings": { "heading": "Help", "menu": "footer", "extra_text": "" } },
-        "info": { "type": "menu", "settings": { "heading": "Info", "menu": "footer" } },
-        "follow": { "type": "social", "settings": { "heading": "Follow" } }
+        "shop": {
+          "type": "links",
+          "settings": {
+            "heading": "Shop",
+            "products": true,
+            "links": "shop all | /collections/all"
+          }
+        },
+        "help": {
+          "type": "links",
+          "settings": {
+            "heading": "Help",
+            "links": "shipping | /pages/help#shipping\nreturns | /pages/help#returns\nsizing | /pages/help#sizing"
+          }
+        },
+        "info": {
+          "type": "links",
+          "settings": {
+            "heading": "Info",
+            "links": "about us | /pages/about\nambassadors | /pages/ambassadors"
+          }
+        },
+        "follow": {
+          "type": "social",
+          "settings": {
+            "heading": "Follow"
+          }
+        }
       },
-      "block_order": ["shop", "help", "info", "follow"],
+      "block_order": [
+        "shop",
+        "help",
+        "info",
+        "follow"
+      ],
       "settings": {
         "note": "Shipped by hand from the US",
         "email": "conviction.faith1@gmail.com",
@@ -18,5 +47,7 @@
       }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }

@@ -13,6 +13,22 @@
                 <li class="footer__muted">{{ block.settings.extra_text }}</li>
               {%- endif -%}
             </ul>
+          {%- when 'links' -%}
+            {%- if block.settings.heading != blank -%}<h2 class="footer__heading">{{ block.settings.heading }}</h2>{%- endif -%}
+            <ul role="list" class="footer__list">
+              {%- if block.settings.products -%}
+                {%- for fp in collections.all.products limit: 8 -%}
+                  <li><a href="{{ fp.url }}">{{ fp.metafields.custom.short_title.value | default: fp.title | downcase }}</a></li>
+                {%- endfor -%}
+              {%- endif -%}
+              {%- assign rows = block.settings.links | newline_to_br | split: '<br />' -%}
+              {%- for row in rows -%}
+                {%- assign parts = row | strip | split: '|' -%}
+                {%- if parts.size == 2 -%}
+                  <li><a href="{{ parts[1] | strip }}">{{ parts[0] | strip }}</a></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
           {%- when 'social' -%}
             {%- if block.settings.heading != blank -%}<h2 class="footer__heading">{{ block.settings.heading }}</h2>{%- endif -%}
             <ul role="list" class="footer__list">
@@ -49,20 +65,85 @@
   "class": "section-footer",
   "max_blocks": 6,
   "settings": [
-    { "type": "checkbox", "id": "show_bigmark", "label": "Show large CONVICTION across the footer", "default": true },
-    { "type": "image_picker", "id": "bigmark_photo", "label": "Photo inside the letters", "info": "A wide photo. The sunset shot (4J1A2949) works well. Without one, the letters are solid." },
-    { "type": "text", "id": "note", "label": "Note", "default": "Shipped by hand from the US" },
-    { "type": "text", "id": "email", "label": "Contact email", "default": "conviction.faith1@gmail.com" },
-    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Christian streetwear, made to be asked about." }
+    {
+      "type": "checkbox",
+      "id": "show_bigmark",
+      "label": "Show large CONVICTION across the footer",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "bigmark_photo",
+      "label": "Photo inside the letters",
+      "info": "A wide photo. The sunset shot (4J1A2949) works well. Without one, the letters are solid."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note",
+      "default": "Shipped by hand from the US"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Contact email",
+      "default": "conviction.faith1@gmail.com"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Christian streetwear, made to be asked about."
+    }
   ],
   "blocks": [
+    {
+      "type": "links",
+      "name": "Links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Info"
+        },
+        {
+          "type": "checkbox",
+          "id": "products",
+          "label": "List products first",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "links",
+          "label": "Links",
+          "info": "One per line: label | /link",
+          "default": "about us | /pages/about"
+        }
+      ]
+    },
     {
       "type": "menu",
       "name": "Menu",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
-        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" },
-        { "type": "text", "id": "extra_text", "label": "Extra line without a link", "info": "For something like “prayer wall (soon)”." }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shop"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        },
+        {
+          "type": "text",
+          "id": "extra_text",
+          "label": "Extra line without a link",
+          "info": "For something like “prayer wall (soon)”."
+        }
       ]
     },
     {
@@ -70,8 +151,16 @@
       "name": "Social links",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Follow" },
-        { "type": "paragraph", "content": "Edit links in Theme settings → Social." }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Follow"
+        },
+        {
+          "type": "paragraph",
+          "content": "Edit links in Theme settings → Social."
+        }
       ]
     }
   ]

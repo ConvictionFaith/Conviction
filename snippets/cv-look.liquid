@@ -1,6 +1,6 @@
 {%- comment -%}
   The built-in people photos for each product (from the approved demo).
-  Accepts: handle, part ('front', 'back', 'flip_front', 'flip_back', 'gallery' or 'has'),
+  Accepts: handle, part ('front', 'back', 'flip_front', 'flip_back', 'flat_front', 'flat_back', 'gallery' or 'has'),
            class, eager, li_class (gallery only)
   part 'has' prints "yes" when the product has built-in photos.
   To use your own photos instead, upload them to the product: these only show
@@ -10,6 +10,8 @@
   {%- when 'conviction-greek-streetwear-t-shirt' -%}
     {%- case part -%}
       {%- when 'has' -%}yes
+      {%- when 'flat_front' -%}{% render 'cv-photo', key: 'flat-john-front', alt: 'Front of the John 16:8 tee, laid flat', class: class, eager: eager %}
+      {%- when 'flat_back' -%}{% render 'cv-photo', key: 'flat-john-back', alt: 'Back of the John 16:8 tee, laid flat', class: class %}
       {%- when 'front' -%}{% render 'cv-photo', key: 'hat', alt: 'Wearing the John 16:8 tee in a field, éleyxos on the chest', style: 'object-position: 50% 60%', class: class, eager: eager %}
       {%- when 'back' -%}{% render 'cv-photo', key: 'johnBackClean', alt: 'Back of the John 16:8 tee: the falling figure over Conviction and its Greek definition', style: 'object-position: 50% 42%', class: class, eager: eager %}
       {%- when 'flip_front' -%}{% render 'cv-photo', key: 'eleyxos', alt: 'Front: éleyxos in black gothic type on the chest', style: 'object-position: 60% 50%', class: class, eager: eager %}
@@ -27,6 +29,8 @@
   {%- when 'lust-is-not-love-flowers-graphic-tee' -%}
     {%- case part -%}
       {%- when 'has' -%}yes
+      {%- when 'flat_front' -%}{% render 'cv-photo', key: 'flat-floral-front', alt: 'Front of the Romans 8:5–6 tee, laid flat', class: class, eager: eager %}
+      {%- when 'flat_back' -%}{% render 'cv-photo', key: 'flat-floral-back', alt: 'Back of the Romans 8:5–6 tee, laid flat', class: class %}
       {%- when 'front' -%}{% render 'cv-photo', key: 'levee', alt: 'Standing on a levee road at dusk in the Romans 8:5–6 tee, Conviction on the chest', style: 'object-position: 50% 45%', class: class, eager: eager %}
       {%- when 'back' -%}{% render 'cv-photo', key: 'floralBack', alt: 'Back of the Romans 8:5–6 tee: “Lust is not love” over a white bouquet', style: 'object-position: 50% 40%', class: class, eager: eager %}
       {%- when 'flip_front' -%}{% render 'cv-photo', key: 'floralChest', alt: 'Front: the underlined Conviction logo on the chest', style: 'object-position: 55% 50%', class: class, eager: eager %}
@@ -43,6 +47,8 @@
   {%- when 'romans-86-jersey' -%}
     {%- case part -%}
       {%- when 'has' -%}yes
+      {%- when 'flat_front' -%}{% render 'cv-photo', key: 'flat-jersey-front', alt: 'Front of the Romans 8:6 jersey, laid flat', class: class, eager: eager %}
+      {%- when 'flat_back' -%}{% render 'cv-photo', key: 'flat-jersey-back', alt: 'Back of the Romans 8:6 jersey, laid flat', class: class %}
       {%- when 'front' -%}{% render 'cv-photo', key: 'jerseySolo', alt: 'Smiling on a tree-lined street in the Romans 8:6 jersey, Conviction on the chest', style: 'object-position: 50% 35%', class: class, eager: eager %}
       {%- when 'back' -%}{% render 'cv-photo', key: 'jerseyBack', alt: 'Back of the Romans 8:6 jersey with Romans 8:6 in large gothic type', style: 'object-position: 50% 32%', class: class, eager: eager %}
       {%- when 'flip_front' -%}{% render 'cv-photo', key: 'jerseyChest', alt: 'Front: Conviction in white gothic type, white piping beside it', style: 'object-position: 58% 50%', class: class, eager: eager %}

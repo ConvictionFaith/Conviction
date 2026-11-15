@@ -82,6 +82,10 @@
       assign w = 1800
       assign h = 1200
   endcase
+  if key contains 'flat-'
+    assign w = 1200
+    assign h = 1500
+  endif
   assign src = 'cv-' | append: key | append: '.webp' | asset_url
 -%}
 <img src="{{ src }}" class="{{ class }}" alt="{{ alt | escape }}" width="{{ w }}" height="{{ h }}"
