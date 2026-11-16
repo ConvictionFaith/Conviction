@@ -26,7 +26,7 @@
           "type": "links",
           "settings": {
             "heading": "Help",
-            "links": "shipping | /pages/help#shipping\nreturns | /pages/help#returns\nsizing | /pages/help#sizing"
+            "links": "shipping | /policies/shipping-policy\nreturns | /policies/refund-policy\nprivacy | /policies/privacy-policy\nterms | /policies/terms-of-service"
           }
         },
         "info": {

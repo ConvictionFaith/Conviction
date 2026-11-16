@@ -40,7 +40,7 @@
               style: logo_style,
               loading: 'eager' }}
         {%- else -%}
-          <span class="wm" role="img" aria-label="{{ shop.name }}" style="--wm: url('{{ 'conviction-wordmark.svg' | asset_url }}'); width: {{ section.settings.logo_width }}px"></span>
+          <span class="wm" role="img" aria-label="{{ shop.name | escape }}" style="--wm: url('{{ 'conviction-wordmark.svg' | asset_url }}'); width: {{ section.settings.logo_width }}px"></span>
         {%- endif -%}
       </a>
     {%- if request.page_type == 'index' -%}</h1>{%- else -%}</div>{%- endif -%}

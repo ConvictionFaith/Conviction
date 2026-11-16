@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="theme-color" content="{% if settings.color_mode == 'cream' %}#EFE8D8{% else %}#FFFFFF{% endif %}">
-    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="canonical" href="{{ canonical_url | escape }}">
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
     {%- endif -%}
@@ -23,6 +23,7 @@
     {%- endif -%}
 
     {%- render 'meta-tags' -%}
+    {%- render 'structured-data' -%}
     {%- render 'css-variables' -%}
 
     {%- if settings.display_style == 'blackletter' or settings.display_style == 'condensed' -%}

@@ -32,8 +32,8 @@
           {%- when 'social' -%}
             {%- if block.settings.heading != blank -%}<h2 class="footer__heading">{{ block.settings.heading }}</h2>{%- endif -%}
             <ul role="list" class="footer__list">
-              {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" target="_blank" rel="noopener noreferrer">instagram</a></li>{%- endif -%}
-              {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener noreferrer">tiktok</a></li>{%- endif -%}
+              {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram | escape }}" target="_blank" rel="noopener noreferrer">instagram</a></li>{%- endif -%}
+              {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok | escape }}" target="_blank" rel="noopener noreferrer">tiktok</a></li>{%- endif -%}
             </ul>
         {%- endcase -%}
       </div>
@@ -51,7 +51,7 @@
   <div class="footer__base">
     <p>{{ section.settings.note }}</p>
     {%- if section.settings.email != blank -%}
-      <p><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></p>
+      <p><a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a></p>
     {%- endif -%}
     <p>© {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
     <p class="footer__tagline">{{ section.settings.tagline }}</p>

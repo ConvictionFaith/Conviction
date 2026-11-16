@@ -1,6 +1,6 @@
 <section class="block-pad page page--narrow account">
   <h1 class="page__title">{{ 'customer.account' | t }}</h1>
-  <p>{{ customer.name }} · <a href="{{ routes.account_logout_url }}" class="text-link">{{ 'customer.logout' | t }}</a></p>
+  <p>{{ customer.name | escape }} · <a href="{{ routes.account_logout_url }}" class="text-link">{{ 'customer.logout' | t }}</a></p>
   <h2 class="page__subtitle">{{ 'customer.orders' | t }}</h2>
   {%- paginate customer.orders by 20 -%}
     {%- if customer.orders.size > 0 -%}
