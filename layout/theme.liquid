@@ -41,6 +41,18 @@
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
 
     {{ content_for_header }}
+    <script type="speculationrules">
+      {
+        "prefetch": [{
+          "where": { "and": [
+            { "href_matches": "/*" },
+            { "not": { "href_matches": ["/cart*", "/checkout*", "/checkouts/*", "/account*", "/*/account*", "/password*", "/discount/*", "/*\\?*"] } },
+            { "not": { "selector_matches": "[rel~=nofollow], [target=_blank], [data-no-prefetch]" } }
+          ]},
+          "eagerness": "moderate"
+        }]
+      }
+    </script>
   </head>
 
   <body class="{% if settings.photo_grade %}has-grade {% endif %}template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">

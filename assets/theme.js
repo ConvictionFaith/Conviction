@@ -19,6 +19,20 @@
   }
 
 
+  /* ---------- Small on-page message ---------- */
+  let toastEl, toastTimer;
+  function toast(msg) {
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.className = 'toast'; toastEl.setAttribute('role', 'status'); toastEl.setAttribute('aria-live', 'polite');
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = String(msg);
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3600);
+  }
+
   /* ---------- Hover photos: only fetched on screens that can hover ---------- */
   const CAN_HOVER = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   function loadDeferred(img) {
@@ -192,7 +206,7 @@
       closePops();
       await Bag.afterAdd(data);
     } catch (err) {
-      alert(err.message || S.error);
+      toast(err.message || S.error);
     } finally {
       btn.disabled = false;
     }
@@ -230,6 +244,7 @@
         const l = $('[data-drop-live]', el); if (l) l.hidden = false;
       };
       const tick = () => {
+        if (document.hidden) return;
         const ms = at - Date.now();
         if (ms <= 0) { goLive(); clearInterval(dropTimers.get(el)); return; }
         const sec = Math.floor(ms / 1000);
@@ -242,6 +257,7 @@
       };
       tick();
       if (!el.classList.contains('is-live')) dropTimers.set(el, setInterval(tick, 1000));
+      if (!el.dataset.visBound) { el.dataset.visBound = '1'; document.addEventListener('visibilitychange', tick); }
     });
   }
 
@@ -265,7 +281,8 @@
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver((es) => { if (es.some((x) => x.isIntersecting)) { warm(); io.disconnect(); } }, { rootMargin: '600px 0px' });
         io.observe(sec);
-      } else warm();
+        new IntersectionObserver((es) => es.forEach((x) => sec.classList.toggle('is-on', x.isIntersecting))).observe(sec);
+      } else { warm(); sec.classList.add('is-on'); }
       sec.addEventListener('keydown', (e) => {
         const tab = e.target.closest('[data-look-tab]');
         if (!tab || (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft')) return;

@@ -880,3 +880,26 @@ body.has-grade main img:not([src*="/cv-"]):not([data-src]) { filter: var(--grade
 }
 @media (prefers-reduced-motion: reduce) { .spot::before { animation: none; } .flip__card { transition: none; } }
 .product__fine { font-size: 11.5px; line-height: 1.5; color: var(--mute); margin-top: 4px; }
+
+/* ================= Smoothness pass ================= */
+/* Photo reveal: same top-down shutter, now a GPU-only scale of a cover panel
+   instead of animating clip-path (which repaints the photo every frame). */
+[data-reveal] :is(.iwt__img, .intro__img, .cv-fill, img) { clip-path: none !important; }
+html.js [data-reveal] { position: relative; }
+html.js [data-reveal]::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: var(--stone); transform-origin: 50% 100%; transition: transform 1s var(--ease-io); }
+html.js [data-reveal].in::after { transform: scaleY(0); }
+html.js .wwa[data-reveal]::after { display: none; }
+@media (prefers-reduced-motion: reduce) { html.js [data-reveal]::after { display: none; } }
+
+/* Small on-page message instead of browser alert boxes */
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 80; transform: translateX(-50%);
+  max-width: min(92vw, 460px); padding: 12px 16px; background: var(--ink); color: var(--paper); font-size: 13px; text-align: center;
+  opacity: 0; transition: opacity .3s var(--ease), transform .45s var(--ease); pointer-events: none; }
+.toast.show { opacity: 1; transform: translate(-50%, -6px); }
+
+/* Hotspot pulse rests while the section is off screen */
+.stl-wrap:not(.is-on) .spot::before { animation-play-state: paused; }
+
+/* Hover crossfade and button fills: hint the compositor only while hovering */
+@media (hover: hover) { .card:hover .card__img--alt { will-change: opacity; } }
