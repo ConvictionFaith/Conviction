@@ -163,12 +163,6 @@
         "id": "social_tiktok",
         "label": "TikTok URL",
         "default": "https://www.tiktok.com/@conviction.faith"
-      },
-      {
-        "type": "text",
-        "id": "social_youtube",
-        "label": "YouTube URL",
-        "default": "https://www.youtube.com/@conviction.faith1"
       }
     ]
   },
