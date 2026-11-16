@@ -903,3 +903,8 @@ html.js .wwa[data-reveal]::after { display: none; }
 
 /* Hover crossfade and button fills: hint the compositor only while hovering */
 @media (hover: hover) { .card:hover .card__img--alt { will-change: opacity; } }
+
+/* Wordmark drawn inline (no mask, no extra file): always visible on every phone */
+.wm--svg { -webkit-mask: none; mask: none; background: none; height: auto; aspect-ratio: 1346 / 282; display: block; overflow: visible; }
+.header__logo img { display: block; height: auto; max-width: 100%; }
+@media (max-width: 749px) { .header__logo :is(.wm, img) { width: 122px !important; } }
