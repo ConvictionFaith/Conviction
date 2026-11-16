@@ -14,6 +14,7 @@ The `main` branch is connected to the PUBLISHED theme: anything pushed to `main`
 5. Only push to `main` directly if the owner explicitly says so for that change.
 
 ## Never
+- Add a `render` of a brand-new snippet and push it straight to `main`. If Shopify's sync drops the new file, every page shows a Liquid error. Ship new snippets first (or inline them), and check the live site after each merge.
 - Commit secrets, API keys, tokens, customer data or order exports. `.gitignore` and the secret scan back this up.
 - Edit `config/settings_data.json` casually. It holds live theme-editor settings, and Shopify may keep its own copy. Prefer code defaults.
 - Remove a select option from a schema while a saved setting might still use it. Shopify can reject the file.
