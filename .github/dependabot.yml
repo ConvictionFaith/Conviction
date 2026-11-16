@@ -1,0 +1,7 @@
+# Opens a pull request when a pinned GitHub Action has a security update.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
