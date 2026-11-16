@@ -29,7 +29,9 @@ The `main` branch is connected to the PUBLISHED theme: anything pushed to `main`
 
 ## Performance habits
 - Built-in photos live in `assets/cv-<key>.webp`, with smaller copies `cv-<key>-w400/700/1000/1400.webp` (only below the original width). The color grade is baked in. The `cv-photo` snippet builds `srcset`/`sizes`.
-- To add a built-in photo: export a WebP about 1100 to 2000px wide, apply the grade (contrast 1.08, saturate 1.1, brightness 1.02), create the width copies, add its size to the `case` list in `snippets/cv-photo.liquid`, then add it to the photo dropdowns.
+- Quality first: build photos from the camera originals with `.github/scripts/rebuild_photos.py` (WebP q86 full size, up to 2560px landscape / 1717px portrait). Don't re-compress an already-compressed WebP.
+- When a change makes the snippet reference a NEW file name, ship the file in one merge and the reference in a later one, so a dropped sync can't break images.
+- To add a built-in photo: export a WebP from the original, apply the grade (contrast 1.08, saturate 1.1, brightness 1.02), create the width copies, add its size to the `case` list in `snippets/cv-photo.liquid`, then add it to the photo dropdowns.
 - Hover-only photos use `defer: true` (loaded only on mouse/trackpad screens).
 - Only the first, top-of-page image gets `eager: true` / `fetchpriority="high"`. Everything else stays lazy.
 - No scroll-driven effects (they caused lag before). Animate only `transform`/`opacity`.
