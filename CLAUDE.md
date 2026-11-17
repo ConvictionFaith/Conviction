@@ -1,7 +1,7 @@
 # CONVICTION Shopify theme: rules for Claude
 
 This repo is the live storefront for conviction.faith (Shopify Online Store 2.0 theme).
-The `main` branch is connected to the PUBLISHED theme: anything pushed to `main` is live for customers within about a minute.
+Two themes in the store are connected to GitHub: `Conviction/main` (branch `main`) and `Conviction/staging` (branch `staging`). Whichever one is PUBLISHED is live for customers within about a minute of a push, so check `Shopify.theme.name` on the live site before assuming which branch is live.
 
 ## How changes ship
 1. `git pull --rebase` first. Shopify commits theme-editor edits back to GitHub (author `shopify[bot]`), and those must never be overwritten.
@@ -14,6 +14,8 @@ The `main` branch is connected to the PUBLISHED theme: anything pushed to `main`
 5. Only push to `main` directly if the owner explicitly says so for that change.
 
 ## Never
+- Hand-write schema.org JSON-LD with Liquid inside `<script type="application/ld+json">`. Shopify's GitHub sync silently REJECTED every file containing it (layout + snippet) for two days, while GitHub checks passed. Use Shopify's `{{ product | structured_data }}` filter only.
+- Assume a push reached the store. After every push, load the live site and check `Shopify.theme` plus a marker from the change (for example `data-no-prefetch` in the layout).
 - Add a `render` of a brand-new snippet and push it straight to `main`. If Shopify's sync drops the new file, every page shows a Liquid error. Ship new snippets first (or inline them), and check the live site after each merge.
 - Commit secrets, API keys, tokens, customer data or order exports. `.gitignore` and the secret scan back this up.
 - Edit `config/settings_data.json` casually. It holds live theme-editor settings, and Shopify may keep its own copy. Prefer code defaults.
