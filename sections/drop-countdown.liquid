@@ -6,6 +6,14 @@
   if drop_s > 0 and now_s >= drop_s
     assign is_live = true
   endif
+  assign left_s = 0
+  if drop_s > now_s
+    assign left_s = drop_s | minus: now_s
+  endif
+  assign left_d = left_s | divided_by: 86400
+  assign left_h = left_s | divided_by: 3600 | modulo: 24
+  assign left_m = left_s | divided_by: 60 | modulo: 60
+  assign left_sec = left_s | modulo: 60
 -%}
 <section class="drop{% if is_live %} is-live{% endif %}" data-drop data-drop-at="{{ drop_at | escape }}" aria-labelledby="drop-h-{{ section.id }}">
   <div class="drop__head">
@@ -23,7 +31,23 @@
     {%- for u in units -%}
       {%- assign parts = u | split: ':' -%}
       {%- unless forloop.first -%}<span class="drop__sep" aria-hidden="true">:</span>{%- endunless -%}
-      <div class="drop__u"><span class="drop__n" data-u="{{ parts[0] }}">00</span><span class="drop__l">{{ parts[1] }}</span></div>
+      {%- liquid
+        case parts[0]
+          when 'd'
+            assign start_n = left_d
+          when 'h'
+            assign start_n = left_h
+          when 'm'
+            assign start_n = left_m
+          else
+            assign start_n = left_sec
+        endcase
+        assign start_txt = start_n | prepend: '0' | slice: -2, 2
+        if start_n > 99
+          assign start_txt = start_n
+        endif
+      -%}
+      <div class="drop__u"><span class="drop__n" data-u="{{ parts[0] }}">{{ start_txt }}</span><span class="drop__l">{{ parts[1] }}</span></div>
     {%- endfor -%}
   </div>
 
