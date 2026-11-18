@@ -908,3 +908,10 @@ html.js .wwa[data-reveal]::after { display: none; }
 .wm--svg { -webkit-mask: none; mask: none; background: none; height: auto; aspect-ratio: 1346 / 282; display: block; overflow: visible; }
 .header__logo img { display: block; height: auto; max-width: 100%; }
 @media (max-width: 749px) { .header__logo :is(.wm, img) { width: 122px !important; } }
+
+/* Safety net (Nov 18, 2026): photos fade in when theme.js sees them load. If the script misses
+   that moment (seen on iPhone Safari), reveal them anyway after a short wait so they never stay invisible. */
+html.js :is(.card__img:not(.card__img--alt), .iwt__img, .look__img, .product__img, .line__media img):not(.is-loaded):not([fetchpriority=high]) {
+  animation: cv-img-reveal .8s ease 2.5s forwards;
+}
+@keyframes cv-img-reveal { to { opacity: 1; } }
