@@ -18,7 +18,7 @@
 <section class="drop{% if is_live %} is-live{% endif %}" data-drop data-drop-at="{{ drop_at | escape }}" aria-labelledby="drop-h-{{ section.id }}">
   <div class="drop__head">
     <p class="drop__kicker" data-drop-kicker{% if is_live %} hidden{% endif %}>
-      {{ section.settings.kicker }}{% if drop_s > 0 %} · {{ drop_at | date: '%A, %b %-d, %-I:%M %p' }}{% endif %}
+      {{ section.settings.kicker }}{% if drop_s > 0 %} · {{ drop_at | date: '%A, %b %-d, %-I:%M %p' }}{% if section.settings.tz_label != blank %} {{ section.settings.tz_label }}{% endif %}{% endif %}
     </p>
     <h2 class="display drop__h" id="drop-h-{{ section.id }}" data-drop-title
       data-live="{{ section.settings.live_heading | escape }}">
@@ -79,6 +79,13 @@
       "label": "Drop date and time",
       "info": "Format: 2026-12-20T19:00:00-06:00 (the -06:00 is Central time). When it passes, the section switches to the live message by itself.",
       "default": "2026-12-20T19:00:00-06:00"
+    },
+    {
+      "type": "text",
+      "id": "tz_label",
+      "label": "Time zone shown after the date",
+      "info": "Match the time zone in the drop date above. Leave blank to hide.",
+      "default": "CT"
     },
     {
       "type": "text",
