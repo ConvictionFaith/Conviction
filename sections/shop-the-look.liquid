@@ -46,10 +46,10 @@
                 <span class="pop__price">{{ sp.price | money }}</span>
               </div>
               {%- if sp.available -%}
-                <p class="pop__label">{{ 'products.select_size' | t }}</p>
+                <p class="pop__label">{{ 'products.select_size' | t }}<span class="visually-hidden"> for {{ sp_title }}</span></p>
                 {% render 'size-buttons', p: sp, class: 'pop__sizes' %}
               {%- else -%}
-                <p class="pop__label">{{ 'products.sold_out' | t }}</p>
+                <p class="pop__label">{{ 'products.sold_out' | t }}<span class="visually-hidden">: {{ sp_title }}</span></p>
               {%- endif -%}
             </div>
           {%- endif -%}
